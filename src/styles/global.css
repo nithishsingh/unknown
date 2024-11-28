@@ -1,0 +1,52 @@
+/* Animation Keyframes */
+@keyframes fade-in {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slide-up {
+  from { 
+    transform: translateY(20px); 
+    opacity: 0; 
+  }
+  to { 
+    transform: translateY(0); 
+    opacity: 1; 
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+/* Carousel Transitions */
+.carousel-slide {
+  transition: opacity 1s ease-in-out;
+}
+
+.carousel-slide[class*="opacity-0"] .transition-opacity {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.carousel-slide[class*="opacity-100"] .transition-opacity {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Card Hover Effects */
+.carousel-slide .backdrop-blur-sm {
+  transition: transform 0.3s ease;
+}
+
+.carousel-slide .backdrop-blur-sm:hover {
+  transform: translateY(-2px);
+} 

@@ -1,0 +1,45 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components';
+
+const menuItems = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Contact", href: "/contact" },
+];
+---
+
+<nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex-shrink-0">
+        <a href="/" class="text-2xl font-bold text-gray-800">Logo</a>
+      </div>
+      
+      <!-- Desktop Menu -->
+      <div class="hidden md:block">
+        <div class="flex items-center space-x-8">
+          {menuItems.map(item => (
+            <a
+              href={item.href}
+              class="text-gray-600 hover:text-blue-600 transition-colors duration-300"
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button
+          type="button"
+          class="text-gray-600 hover:text-gray-900"
+          aria-label="Toggle menu"
+        >
+          <AstroIcon name="lucide:menu" class="w-6 h-6" />
+        </button>
+      </div>
+    </div>
+  </div>
+</nav> 

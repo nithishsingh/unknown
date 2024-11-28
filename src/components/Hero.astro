@@ -1,0 +1,193 @@
+---
+import { Icon as AstroIcon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
+import '../styles/global.css';  // Import global styles
+
+interface Props {
+  title: string;
+  subtitle: string;
+  ctaText: string;
+  ctaLink: string;
+  image: ImageMetadata;
+}
+
+const { title, subtitle, ctaText, ctaLink, image } = Astro.props;
+
+// Import all hero images
+import heroImage1 from '../assets/images/hero/hero-image.jpg';
+import heroImage2 from '../assets/images/hero/hero-image2.jpg';
+import heroImage3 from '../assets/images/hero/hero-image3.jpg';
+import heroImage4 from '../assets/images/hero/hero-image4.jpg';
+
+const heroImages = [heroImage1, heroImage2, heroImage3, heroImage4];
+
+interface ServiceHighlight {
+  title: string;
+  description: string;
+  icon: string;
+  link: string;
+}
+
+const serviceHighlights: ServiceHighlight[] = [
+  {
+    title: "Precision Fabrication",
+    description: "Custom metal fabrication with state-of-the-art machinery and expert craftsmanship",
+    icon: "lucide:settings-2",
+    link: "/services/fabrication"
+  },
+  {
+    title: "Industrial Supply",
+    description: "Comprehensive range of industrial materials and components for manufacturing needs",
+    icon: "lucide:boxes",
+    link: "/services/supply"
+  },
+  {
+    title: "Hardware Solutions",
+    description: "Quality hardware products and customized solutions for industrial applications",
+    icon: "lucide:wrench",
+    link: "/services/hardware"
+  },
+  {
+    title: "Technical Expertise",
+    description: "15+ years of technical excellence in manufacturing and fabrication services",
+    icon: "lucide:award",
+    link: "/services/expertise"
+  }
+];
+---
+
+<section class="py-16 md:py-24 overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Content Column -->
+      <div class="space-y-8">
+        <div class="space-y-4">
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 animate-fade-in">
+            {title}
+          </h1>
+          <h2 class="text-xl md:text-2xl text-primary-600 font-semibold">
+            {subtitle}
+          </h2>
+        </div>
+
+        <div class="space-y-6">
+          <slot name="description" />
+        </div>
+      </div>
+
+      <!-- Image Column with Carousel -->
+      <div class="relative lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+        <div class="carousel-container absolute inset-0">
+          {heroImages.map((img, index) => (
+            <div class={`carousel-slide absolute inset-0 transition-opacity duration-1000 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}>
+              <img 
+                src={img.src} 
+                alt={`Industrial Manufacturing ${index + 1}`} 
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-gray-900/30 to-transparent"></div>
+              
+              <!-- Service Highlight Card -->
+              <div class="absolute bottom-12 left-6 right-6 transition-opacity duration-1000">
+                <div class="backdrop-blur-sm rounded-lg p-4 transform transition-all duration-500">
+                  <div class="flex items-start gap-3">
+                    <div class="bg-white/20 backdrop-blur-sm p-2 rounded-lg">
+                      <AstroIcon name={serviceHighlights[index].icon} class="w-6 h-6 text-white" />
+                    </div>
+                    <div class="flex-1">
+                      <h3 class="text-lg font-semibold text-white mb-1 flex items-center gap-2">
+                        {serviceHighlights[index].title}
+                      </h3>
+                      <p class="text-sm text-white/90 mb-2">
+                        {serviceHighlights[index].description}
+                      </p>
+                      <a 
+                        href={serviceHighlights[index].link} 
+                        class="inline-flex items-center text-sm text-white font-medium group hover:text-white/80"
+                      >
+                        Learn More 
+                        <AstroIcon 
+                          name="lucide:arrow-right" 
+                          class="w-4 h-4 ml-1 transform transition-transform group-hover:translate-x-1" 
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <!-- Navigation Dots - Moved up slightly to accommodate the card -->
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+          {heroImages.map((_, index) => (
+            <button
+              class="w-2 h-2 rounded-full bg-white/50 transition-all duration-300 hover:bg-white"
+              data-index={index}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupCarousel() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('[data-index]');
+    let currentSlide = 0;
+    const slideCount = slides.length;
+    
+    function updateSlides(newIndex: number) {
+      // Hide all slides
+      slides.forEach((slide) => {
+        slide.classList.remove('opacity-100');
+        slide.classList.add('opacity-0');
+      });
+      
+      // Show the current slide
+      slides[newIndex].classList.remove('opacity-0');
+      slides[newIndex].classList.add('opacity-100');
+      
+      // Update dots
+      dots.forEach((dot, index) => {
+        if (index === newIndex) {
+          dot.classList.add('bg-white', 'scale-125');
+          dot.classList.remove('bg-white/50');
+        } else {
+          dot.classList.remove('bg-white', 'scale-125');
+          dot.classList.add('bg-white/50');
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slideCount;
+      updateSlides(currentSlide);
+    }
+
+    // Set up click handlers for dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentSlide = index;
+        updateSlides(currentSlide);
+      });
+    });
+
+    // Start the automatic slideshow
+    setInterval(nextSlide, 5000); // Change slide every 5 seconds
+  }
+
+  // Run setup when the component mounts
+  setupCarousel();
+
+  // Handle hot module replacement for development
+  if (import.meta.hot) {
+    import.meta.hot.accept(() => {
+      setupCarousel();
+    });
+  }
+</script> 

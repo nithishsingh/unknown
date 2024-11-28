@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import heroImage from '../assets/images/hero/hero-image.jpg';
+---
+
+<Layout title="Premier Fabrication & Industrial Supply">
+  <Hero
+    title="Industrial Excellence in Fabrication & Supply"
+    subtitle="15+ Years of Precision Manufacturing"
+    ctaText="Request a Quote"
+    ctaLink="/contact"
+    image={heroImage}
+  >
+    <div slot="description">
+      <p class="text-lg text-gray-700 mb-8">
+        Your trusted partner in industrial fabrication, material supply, and hardware solutions. 
+        Based in Hosur, Tamil Nadu, delivering excellence across India.
+      </p>
+      
+      <div class="grid grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-4 rounded-lg shadow-sm">
+          <span class="block text-3xl font-bold text-primary-600 mb-1">500+</span>
+          <span class="text-sm text-gray-600">Projects Completed</span>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm">
+          <span class="block text-3xl font-bold text-primary-600 mb-1">200+</span>
+          <span class="text-sm text-gray-600">Happy Clients</span>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-sm">
+          <span class="block text-3xl font-bold text-primary-600 mb-1">15+</span>
+          <span class="text-sm text-gray-600">Years Experience</span>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-4">
+          <a href="/contact" class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+            Request a Quote
+          </a>
+          <a href="/portfolio" class="px-6 py-3 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors">
+            View Our Work
+          </a>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600">
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            ISO 9001:2015 Certified
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+            Made in India
+          </span>
+        </div>
+      </div>
+    </div>
+  </Hero>
+</Layout> 
