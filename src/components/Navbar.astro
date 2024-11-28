@@ -11,9 +11,9 @@ const menuItems = [
 
 <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
   <div class="container mx-auto px-4">
-    <div class="flex items-center justify-between h-16">
+    <div class="flex items-center justify-between h-14 md:h-16">
       <div class="flex-shrink-0">
-        <a href="/" class="text-2xl font-bold text-gray-800">Logo</a>
+        <a href="/" class="text-xl md:text-2xl font-bold text-gray-800">Logo</a>
       </div>
       
       <!-- Desktop Menu -->
@@ -34,12 +34,46 @@ const menuItems = [
       <div class="md:hidden">
         <button
           type="button"
-          class="text-gray-600 hover:text-gray-900"
+          class="mobile-menu-button text-gray-600 hover:text-gray-900 p-2"
           aria-label="Toggle menu"
         >
           <AstroIcon name="lucide:menu" class="w-6 h-6" />
         </button>
       </div>
     </div>
+
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu hidden md:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        {menuItems.map(item => (
+          <a
+            href={item.href}
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </div>
   </div>
-</nav> 
+</nav>
+
+<script>
+  // Mobile menu toggle functionality
+  const mobileMenuButton = document.querySelector('.mobile-menu-button');
+  const mobileMenu = document.querySelector('.mobile-menu');
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (event) => {
+    if (mobileMenu && !mobileMenu.contains(event.target as Node) && 
+        mobileMenuButton && !mobileMenuButton.contains(event.target as Node)) {
+      mobileMenu.classList.add('hidden');
+    }
+  });
+</script> 
