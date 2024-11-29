@@ -1,58 +1,65 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import heroImage from '../assets/images/hero/hero-image.jpg';
+import { getCollection } from 'astro:content';
+
+// Get hero content from the hero collection
+const heroContent = await getCollection('hero');
+const mainHero = heroContent[0]?.data || {
+  title: "Industrial Excellence in Fabrication & Supply",
+  subtitle: "15+ Years of Precision Manufacturing",
+  description: "Your trusted partner in industrial fabrication, material supply, and hardware solutions. Based in Hosur, Tamil Nadu, delivering excellence across India.",
+  stats: {
+    projects: "500+",
+    clients: "200+",
+    experience: "15+"
+  }
+};
+
+// Get slides from hero-slides collection
+const slides = await getCollection('hero-slides');
+const sortedSlides = slides.sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout title="Premier Fabrication & Industrial Supply">
+<Layout title="Home">
   <Hero
-    title="Industrial Excellence in Fabrication & Supply"
-    subtitle="15+ Years of Precision Manufacturing"
-    ctaText="Request a Quote"
-    ctaLink="/contact"
-    image={heroImage}
+    title={mainHero.title}
+    subtitle={mainHero.subtitle}
+    description={mainHero.description}
   >
-    <div slot="description">
-      <p class="text-lg text-gray-700 mb-8">
-        Your trusted partner in industrial fabrication, material supply, and hardware solutions. 
-        Based in Hosur, Tamil Nadu, delivering excellence across India.
+    <div slot="description" class="space-y-6 md:space-y-8">
+      <p class="text-base md:text-lg text-gray-700">
+        {mainHero.description}
       </p>
       
-      <div class="grid grid-cols-3 gap-6 mb-8">
-        <div class="bg-white p-4 rounded-lg shadow-sm">
-          <span class="block text-3xl font-bold text-primary-600 mb-1">500+</span>
-          <span class="text-sm text-gray-600">Projects Completed</span>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+        <div class="bg-white p-3 md:p-4 rounded-lg shadow-sm">
+          <span class="block text-2xl md:text-3xl font-bold text-primary-600 mb-1">{mainHero.stats.projects}</span>
+          <span class="text-xs md:text-sm text-gray-600">Projects Completed</span>
         </div>
-        <div class="bg-white p-4 rounded-lg shadow-sm">
-          <span class="block text-3xl font-bold text-primary-600 mb-1">200+</span>
-          <span class="text-sm text-gray-600">Happy Clients</span>
+        <div class="bg-white p-3 md:p-4 rounded-lg shadow-sm">
+          <span class="block text-2xl md:text-3xl font-bold text-primary-600 mb-1">{mainHero.stats.clients}</span>
+          <span class="text-xs md:text-sm text-gray-600">Happy Clients</span>
         </div>
-        <div class="bg-white p-4 rounded-lg shadow-sm">
-          <span class="block text-3xl font-bold text-primary-600 mb-1">15+</span>
-          <span class="text-sm text-gray-600">Years Experience</span>
+        <div class="bg-white p-3 md:p-4 rounded-lg shadow-sm col-span-2 md:col-span-1">
+          <span class="block text-2xl md:text-3xl font-bold text-primary-600 mb-1">{mainHero.stats.experience}</span>
+          <span class="text-xs md:text-sm text-gray-600">Years Experience</span>
         </div>
       </div>
 
-      <div class="space-y-6">
-        <div class="flex flex-wrap gap-4">
-          <a href="/contact" class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-            Request a Quote
-          </a>
-          <a href="/portfolio" class="px-6 py-3 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors">
-            View Our Work
-          </a>
-        </div>
-
-        <div class="flex flex-wrap items-center gap-6 text-sm text-gray-600">
-          <span class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-            ISO 9001:2015 Certified
-          </span>
-          <span class="flex items-center gap-2">
-            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-            Made in India
-          </span>
-        </div>
+      <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
+        <a 
+          href="/contact" 
+          class="w-full sm:w-auto text-center px-4 md:px-6 py-2.5 md:py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+        >
+          Request a Quote
+        </a>
+        <a 
+          href="/portfolio" 
+          class="w-full sm:w-auto text-center px-4 md:px-6 py-2.5 md:py-3 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors"
+        >
+          View Our Work
+        </a>
       </div>
     </div>
   </Hero>

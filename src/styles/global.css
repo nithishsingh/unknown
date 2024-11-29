@@ -49,4 +49,36 @@
 
 .carousel-slide .backdrop-blur-sm:hover {
   transform: translateY(-2px);
+}
+
+/* Responsive text utilities */
+.text-responsive {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+}
+
+/* Improved mobile touch targets */
+@media (max-width: 768px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Better mobile spacing */
+.mobile-spacing {
+  padding: clamp(1rem, 5vw, 2rem);
+}
+
+/* Smooth mobile menu transition */
+.mobile-menu {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Improved mobile card styles */
+@media (max-width: 768px) {
+  .card-mobile {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-radius: 0;
+  }
 } 
