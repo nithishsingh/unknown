@@ -1,5 +1,5 @@
 ---
-import { getTallyConfig } from '../../config/integrations';
+import config from '@/config';
 
 interface Props {
     formId?: string;
@@ -7,8 +7,11 @@ interface Props {
     height?: string;
 }
 
-const config = getTallyConfig();
-const { formId = config.formId, width = config.defaultWidth, height = config.defaultHeight } = Astro.props;
+const { 
+    formId = config.integrations.tally.formId, 
+    width = config.integrations.tally.defaultWidth, 
+    height = config.integrations.tally.defaultHeight 
+} = Astro.props;
 ---
 
 <div class="w-full">

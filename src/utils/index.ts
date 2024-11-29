@@ -1,5 +1,7 @@
-// Common style utilities
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
+// Style utilities
 export const getTextGradient = (direction = 'to-r', from = 'primary', to = 'secondary') => {
   return `bg-gradient-${direction} from-${from}-500 to-${to}-500 bg-clip-text text-transparent`;
 };
@@ -36,3 +38,14 @@ export const getContainerClasses = (size?: 'sm' | 'md' | 'lg' | 'xl' | 'full') =
       return `${base} max-w-7xl`;
   }
 };
+
+// Class name utility
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// Cleanup utility
+export function analyzeUnusedExports() {
+  console.log('Analyzing unused exports...');
+  // Add implementation to scan for unused exports
+} 
