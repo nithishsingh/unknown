@@ -1,31 +1,15 @@
-import integrationsConfig from './integrations.json';
+import config from './index';
+import type { TallyConfig, CalendarConfig, IntegrationsConfig } from './types';
 
-export interface TallyConfig {
-    formId: string;
-    defaultWidth: string;
-    defaultHeight: string;
-}
-
-export interface CalendarConfig {
-    username: string;
-    defaultWidth: string;
-    defaultHeight: string;
-    apiKey: string;
-}
-
-export interface IntegrationsConfig {
-    tally: TallyConfig;
-    calendar: CalendarConfig;
-}
-
+// Helper functions that use the centralized config
 export const getConfig = (): IntegrationsConfig => {
-    return integrationsConfig;
+    return config.integrations;
 };
 
 export const getTallyConfig = (): TallyConfig => {
-    return integrationsConfig.tally;
+    return config.integrations.tally;
 };
 
 export const getCalendarConfig = (): CalendarConfig => {
-    return integrationsConfig.calendar;
-};
+    return config.integrations.calendar;
+}; 

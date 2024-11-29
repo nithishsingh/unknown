@@ -1,5 +1,5 @@
 ---
-import { getCalendarConfig } from '../../config/integrations';
+import config from '@/config';
 
 interface Props {
     username?: string;
@@ -7,8 +7,11 @@ interface Props {
     height?: string;
 }
 
-const config = getCalendarConfig();
-const { username = config.username, width = config.defaultWidth, height = config.defaultHeight } = Astro.props;
+const { 
+    username = config.integrations.calendar.username, 
+    width = config.integrations.calendar.defaultWidth, 
+    height = config.integrations.calendar.defaultHeight 
+} = Astro.props;
 ---
 
 <div class="w-full">

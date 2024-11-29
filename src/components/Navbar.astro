@@ -1,6 +1,6 @@
 ---
 import { Icon as AstroIcon } from 'astro-icon/components';
-
+import config from '@/config';
 
 const menuItems = [
   { label: "Home", href: "/" },
@@ -27,16 +27,16 @@ const currentPath = Astro.url.pathname;
               class="flex items-center gap-3 group"
             >
               <img 
-                src="/src/images/logo.svg" 
-                alt="Krrish & Co Logo" 
+                src={config.company.branding.logo.default}
+                alt={`${config.company.name} Logo`}
                 class="w-10 h-10 transition-transform duration-300 group-hover:scale-105"
               />
               <div class="flex flex-col">
                 <span class="text-lg font-bold leading-tight text-primary-800 dark:text-dark-text-primary group-hover:text-primary-700 dark:group-hover:text-primary-500">
-                  Krrish & Co
+                  {config.company.name}
                 </span>
                 <span class="text-xs text-accent-steel-600 dark:text-dark-text-secondary">
-                  Industrial Excellence
+                  {config.company.tagline}
                 </span>
               </div>
             </a>
@@ -82,9 +82,8 @@ const currentPath = Astro.url.pathname;
                 <AstroIcon name="lucide:moon" class="w-5 h-5 hidden dark:block" />
               </button>
               <a 
-                href="#"
+                href="/quote"
                 class="ml-2 px-5 py-2 rounded-xl text-sm font-medium bg-accent-orange-600 text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent-orange-600/20 hover:bg-accent-orange-700 active:scale-95"
-                id="get-quote-btn"
               >
                 Get Quote
               </a>
@@ -147,9 +146,8 @@ const currentPath = Astro.url.pathname;
                 <span>Theme</span>
               </button>
               <a 
-                href="#"
+                href="/quote"
                 class="block w-full text-center px-4 py-2.5 rounded-xl text-base font-medium bg-accent-orange-600 text-white hover:bg-accent-orange-700 transition-all duration-300"
-                id="get-quote-btn"
               >
                 Get Quote
               </a>
@@ -160,8 +158,6 @@ const currentPath = Astro.url.pathname;
     </div>
   </div>
 </nav>
-
-
 
 <style>
   /* Replace opacity transitions with display for better performance */

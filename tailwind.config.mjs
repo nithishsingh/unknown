@@ -1,3 +1,5 @@
+import config from './src/config';
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -11,7 +13,7 @@ export default {
 					200: '#C0E0FF',  // Light
 					300: '#90C7FF',  // Medium Light
 					400: '#60A5FF',  // Medium
-					500: '#3B82F6',  // Base
+					500: config.company.branding.colors.primary,  // Base
 					600: '#2563EB',  // Medium Dark
 					700: '#1D4ED8',  // Dark
 					800: '#1E40AF',  // Very Dark
@@ -20,12 +22,12 @@ export default {
 				accent: {
 					orange: {
 						500: '#FF795E',
-						600: '#FF5733',
+						600: config.company.branding.colors.accent,
 						700: '#E64A19',
 					},
 					steel: {
 						500: '#A9A9A9',
-						600: '#717171',
+						600: config.company.branding.colors.secondary,
 						700: '#4F4F4F',
 					}
 				},

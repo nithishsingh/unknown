@@ -1,6 +1,7 @@
 // @ts-check
 
 import { defineConfig } from 'astro/config';
+import config from './src/config';
 
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
@@ -15,7 +16,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://krrishco.com',
+  site: config.company.url,
   integrations: [tailwind(), markdoc(), react(), keystatic({
     experimental: {
       astro: true

@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '@/layouts/Layout.astro';
 import Container from '../components/layout/Container.astro';
 import Section from '../components/layout/Section.astro';
 import Hero from '../components/Hero.astro';
@@ -10,6 +10,7 @@ import NewsletterSignup from '../components/features/NewsletterSignup.astro';
 import TallyForm from '../components/features/TallyForm.astro';
 import CalendarBooking from '../components/features/CalendarBooking.astro';
 import { getCollection } from 'astro:content';
+import config from '@/config';
 
 // Get hero slides
 const slides = await getCollection('hero-slides');
@@ -30,33 +31,12 @@ const heroData = {
 
 ---
 
-<Layout title="Krrish & Co - Engineering Excellence">
+<Layout title={config.company.seo.title}>
   <main class="relative overflow-hidden">
-    {/* Hero Section */}
-      
-        <Hero {...heroData} />
-  
-   
-
-    {/* Services Showcase */}
-   
-      
-        <ServicesShowcase />
-      
-   
-
-    {/* Process Flow */}
-    
-    
-        <ProcessFlow />
-      
-  
-
-    {/* Industries We Serve */}
-   
-      
-        <Industries />
-  
+    <Hero {...heroData} />
+    <ServicesShowcase />
+    <ProcessFlow />
+    <Industries />
 
     {/* Newsletter Section */}
     <Section class="py-20" background="primary">
