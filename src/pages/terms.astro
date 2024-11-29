@@ -1,0 +1,113 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Container from '@components/layout/Container.astro';
+import Section from '@components/layout/Section.astro';
+
+const title = "Terms of Service";
+const lastUpdated = "January 1, 2024";
+
+const sections = [
+  {
+    title: "Acceptance of Terms",
+    content: "By accessing and using our services, you agree to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree with any of these terms, you are prohibited from using our services."
+  },
+  {
+    title: "Use License",
+    content: [
+      {
+        text: "Permission is granted to temporarily access our services for personal, non-commercial use subject to the following conditions:",
+        items: [
+          "You must not modify or copy our materials",
+          "You must not use the materials for any commercial purpose",
+          "You must not attempt to decompile or reverse engineer any software",
+          "You must not remove any copyright or proprietary notations"
+        ]
+      }
+    ]
+  },
+  {
+    title: "Service Availability",
+    content: "We strive to provide uninterrupted service, but we do not guarantee that our services will be available at all times. We reserve the right to modify, suspend, or discontinue any part of our services without notice."
+  },
+  {
+    title: "User Obligations",
+    content: [
+      {
+        text: "As a user of our services, you agree to:",
+        items: [
+          "Provide accurate and complete information",
+          "Maintain the security of your account",
+          "Not use our services for illegal purposes",
+          "Not interfere with or disrupt our services",
+          "Comply with all applicable laws and regulations"
+        ]
+      }
+    ]
+  },
+  {
+    title: "Limitation of Liability",
+    content: "We shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use our services."
+  }
+];
+---
+
+<Layout title={title}>
+  <Section padding="lg">
+    <Container size="md">
+      <div class="prose dark:prose-invert max-w-none">
+        <h1>{title}</h1>
+        <p class="text-gray-600 dark:text-gray-400">
+          Last updated: {lastUpdated}
+        </p>
+
+        {sections.map(section => (
+          <div class="mt-8">
+            <h2>{section.title}</h2>
+            {typeof section.content === 'string' ? (
+              <p>{section.content}</p>
+            ) : (
+              section.content.map(item => (
+                <div class="mt-4">
+                  <p>{item.text}</p>
+                  {item.items && (
+                    <ul>
+                      {item.items.map(listItem => (
+                        <li>{listItem}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        ))}
+
+        <div class="mt-12">
+          <h2>Contact</h2>
+          <p>
+            For any questions regarding these Terms of Service, please contact us at:
+          </p>
+          <ul>
+            <li>Email: legal@example.com</li>
+            <li>Phone: (555) 123-4567</li>
+          </ul>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>
+
+<style>
+  /* Matching styles from privacy page */
+  .prose h2 {
+    @apply text-2xl font-bold text-gray-900 dark:text-white mt-12 mb-6;
+  }
+  
+  .prose p {
+    @apply text-gray-600 dark:text-gray-400 mb-4;
+  }
+  
+  .prose ul {
+    @apply list-disc list-inside text-gray-600 dark:text-gray-400 mb-6;
+  }
+</style> 

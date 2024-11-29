@@ -1,0 +1,136 @@
+---
+interface Props {
+  value: number;
+  max?: number;
+  size?: 'sm' | 'md' | 'lg';
+  readonly?: boolean;
+  class?: string;
+}
+
+const {
+  value,
+  max = 5,
+  size = 'md',
+  readonly = false,
+  class: className
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+
+const sizes = {
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+  lg: 'w-6 h-6'
+};
+
+const stars = Array.from({ length: max }, (_, i) => i + 1);
+---
+
+<div
+  class:list={[
+    "inline-flex items-center gap-1",
+    !readonly && "cursor-pointer",
+    className
+  ]}
+  data-rating-container
+  data-max={max}
+  data-readonly={readonly}
+>
+  {stars.map(star => (
+    <button
+      type="button"
+      class:list={[
+        "focus:outline-none transition-colors",
+        readonly ? "cursor-default" : "cursor-pointer",
+      ]}
+      data-value={star}
+      disabled={readonly}
+      aria-label={`Rate ${star} out of ${max} stars`}
+    >
+      <Icon
+        name={star <= value ? "lucide:star" : "lucide:star"}
+        class:list={[
+          sizes[size],
+          star <= value
+            ? "text-yellow-400"
+            : "text-gray-300 dark:text-gray-600"
+        ]}
+      />
+    </button>
+  ))}
+</div>
+
+<script>
+  class RatingManager {
+    private container: HTMLElement;
+    private readonly: boolean;
+    private max: number;
+    private buttons: NodeListOf<HTMLButtonElement>;
+    
+    constructor(container: HTMLElement) {
+      this.container = container;
+      this.readonly = container.dataset.readonly === 'true';
+      this.max = Number(container.dataset.max || 5);
+      this.buttons = container.querySelectorAll('button');
+      
+      if (!this.readonly) {
+        this.init();
+      }
+    }
+    
+    private init() {
+      this.buttons.forEach(button => {
+        button.addEventListener('click', () => this.handleClick(button));
+        button.addEventListener('mouseenter', () => this.handleHover(button));
+      });
+      
+      this.container.addEventListener('mouseleave', () => this.handleMouseLeave());
+    }
+    
+    private handleClick(button: HTMLButtonElement) {
+      const value = Number(button.dataset.value);
+      this.updateStars(value);
+      
+      // Dispatch custom event
+      const event = new CustomEvent('rating-change', {
+        detail: { value }
+      });
+      this.container.dispatchEvent(event);
+    }
+    
+    private handleHover(button: HTMLButtonElement) {
+      const value = Number(button.dataset.value);
+      this.updateStars(value, true);
+    }
+    
+    private handleMouseLeave() {
+      const currentValue = this.getCurrentValue();
+      this.updateStars(currentValue);
+    }
+    
+    private updateStars(value: number, isHover = false) {
+      this.buttons.forEach(button => {
+        const starValue = Number(button.dataset.value);
+        const icon = button.querySelector('svg');
+        
+        if (starValue <= value) {
+          icon?.classList.add('text-yellow-400');
+          icon?.classList.remove('text-gray-300', 'dark:text-gray-600');
+        } else {
+          icon?.classList.remove('text-yellow-400');
+          icon?.classList.add('text-gray-300', 'dark:text-gray-600');
+        }
+      });
+    }
+    
+    private getCurrentValue(): number {
+      const activeStars = this.container.querySelectorAll('.text-yellow-400');
+      return activeStars.length;
+    }
+  }
+  
+  // Initialize all rating components
+  document.querySelectorAll('[data-rating-container]').forEach(container => {
+    new RatingManager(container as HTMLElement);
+  });
+</script> 

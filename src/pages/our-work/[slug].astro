@@ -1,0 +1,57 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const workItems = await getCollection('our-work');
+  return workItems.map(item => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+---
+
+<Layout title={`${item.data.title} - Krrish & Co Projects`}>
+  <main>
+    {/* Hero Section */}
+    <Section class="py-20" background="primary">
+      <Container>
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center">
+            <h1 class="text-5xl font-bold mb-6">{item.data.title}</h1>
+            <div class="flex items-center justify-center space-x-4 text-gray-600">
+              <span>{new Date(item.data.completionDate).toLocaleDateString()}</span>
+              <span>•</span>
+              <span>{item.data.category}</span>
+              <span>•</span>
+              <span>{item.data.client}</span>
+            </div>
+          </div>
+          {item.data.thumbnail && (
+            <div class="mt-12 relative h-[500px] rounded-xl overflow-hidden">
+              <img
+                src={item.data.thumbnail}
+                alt={item.data.title}
+                class="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          )}
+        </div>
+      </Container>
+    </Section>
+
+    {/* Content */}
+    <Section class="py-16">
+      <Container>
+        <div class="max-w-3xl mx-auto prose prose-lg">
+          <Content />
+        </div>
+      </Container>
+    </Section>
+  </main>
+</Layout>

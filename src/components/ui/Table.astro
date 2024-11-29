@@ -1,0 +1,77 @@
+---
+interface Column {
+  key: string;
+  label: string;
+  align?: 'left' | 'center' | 'right';
+}
+
+interface Props {
+  columns: Column[];
+  data: Record<string, any>[];
+  class?: string;
+  striped?: boolean;
+  hoverable?: boolean;
+  compact?: boolean;
+}
+
+const {
+  columns,
+  data,
+  class: className,
+  striped = false,
+  hoverable = true,
+  compact = false
+} = Astro.props;
+---
+
+<div class:list={[
+  "w-full overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700",
+  className
+]}>
+  <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+    <thead class="bg-gray-50 dark:bg-dark-surface-soft">
+      <tr>
+        {columns.map(column => (
+          <th
+            scope="col"
+            class:list={[
+              "px-6 py-3 text-xs font-medium tracking-wider uppercase",
+              "text-gray-500 dark:text-gray-400",
+              compact ? 'py-2' : 'py-3',
+              column.align === 'right' ? 'text-right' : 
+              column.align === 'center' ? 'text-center' : 'text-left'
+            ]}
+          >
+            {column.label}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody class:list={[
+      "bg-white divide-y divide-gray-200",
+      "dark:bg-dark-surface dark:divide-gray-700",
+      striped && "divide-y-0"
+    ]}>
+      {data.map((row, rowIndex) => (
+        <tr class:list={[
+          hoverable && "hover:bg-gray-50 dark:hover:bg-dark-surface-soft",
+          striped && rowIndex % 2 === 0 && "bg-gray-50 dark:bg-dark-surface-soft"
+        ]}>
+          {columns.map(column => (
+            <td
+              class:list={[
+                "px-6 whitespace-nowrap",
+                "text-sm text-gray-500 dark:text-gray-400",
+                compact ? 'py-2' : 'py-4',
+                column.align === 'right' ? 'text-right' : 
+                column.align === 'center' ? 'text-center' : 'text-left'
+              ]}
+            >
+              {row[column.key]}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div> 

@@ -1,0 +1,26 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  size = 'md',
+  class: className
+} = Astro.props;
+
+const sizes = {
+  sm: 'w-4 h-4',
+  md: 'w-6 h-6',
+  lg: 'w-8 h-8'
+};
+---
+
+<div class:list={[
+  'animate-spin rounded-full border-2 border-gray-300 border-t-primary-600',
+  'dark:border-gray-600 dark:border-t-primary-400',
+  sizes[size],
+  className
+]} role="status">
+  <span class="sr-only">Loading...</span>
+</div> 

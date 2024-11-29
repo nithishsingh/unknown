@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/layout/Container.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<Layout title="Site Maintenance">
+  <Container size="sm">
+    <div class="text-center py-16 md:py-24">
+      <div class="mb-8">
+        <Icon name="lucide:settings" class="w-24 h-24 mx-auto text-gray-400 dark:text-gray-600 animate-spin-slow" />
+      </div>
+      
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        Site Under Maintenance
+      </h1>
+      
+      <p class="text-xl text-gray-600 dark:text-gray-400 mb-4">
+        We're currently performing scheduled maintenance.
+      </p>
+      
+      <p class="text-gray-600 dark:text-gray-400 mb-8">
+        Please check back soon. We apologize for any inconvenience.
+      </p>
+      
+      <div class="max-w-md mx-auto bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+          Maintenance Details
+        </h2>
+        <ul class="space-y-2 text-gray-600 dark:text-gray-400 text-left">
+          <li class="flex items-center">
+            <Icon name="lucide:clock" class="w-5 h-5 mr-2" />
+            Expected Duration: 2 hours
+          </li>
+          <li class="flex items-center">
+            <Icon name="lucide:calendar" class="w-5 h-5 mr-2" />
+            Start Time: {new Date().toLocaleString()}
+          </li>
+          <li class="flex items-center">
+            <Icon name="lucide:info" class="w-5 h-5 mr-2" />
+            Status: In Progress
+          </li>
+        </ul>
+      </div>
+      
+      <div class="mt-12">
+        <p class="text-gray-600 dark:text-gray-400">
+          For urgent matters, please email us at
+          <a href="mailto:support@example.com" class="text-primary-600 hover:text-primary-500">
+            support@example.com
+          </a>
+        </p>
+      </div>
+    </div>
+  </Container>
+</Layout>
+
+<style>
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style> 

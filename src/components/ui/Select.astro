@@ -1,0 +1,64 @@
+---
+interface Option {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  label?: string;
+  name: string;
+  options: Option[];
+  required?: boolean;
+  error?: string;
+  class?: string;
+  defaultValue?: string;
+}
+
+const {
+  label,
+  name,
+  options,
+  required = false,
+  error,
+  class: className,
+  defaultValue,
+  ...rest
+} = Astro.props;
+---
+
+<div class="form-group">
+  {label && (
+    <label for={name} class="form-label">
+      {label}
+      {required && <span class="text-red-500">*</span>}
+    </label>
+  )}
+  <select
+    id={name}
+    name={name}
+    required={required}
+    class:list={[
+      'input-base appearance-none bg-no-repeat bg-right',
+      error && 'border-red-500 focus:ring-red-500',
+      className
+    ]}
+    style="background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22%3E%3Cpath fill=%22%23888%22 d=%22M6 9L1 4h10z%22/%3E%3C/svg%3E')"
+    {...rest}
+  >
+    {options.map(option => (
+      <option 
+        value={option.value}
+        disabled={option.disabled}
+        selected={option.value === defaultValue}
+      >
+        {option.label}
+      </option>
+    ))}
+  </select>
+  {error && (
+    <p class="mt-1 text-sm text-red-500">
+      {error}
+    </p>
+  )}
+</div> 

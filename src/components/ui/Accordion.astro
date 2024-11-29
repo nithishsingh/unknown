@@ -1,0 +1,73 @@
+---
+interface AccordionItem {
+  id: string;
+  title: string;
+  content: string;
+  defaultOpen?: boolean;
+}
+
+interface Props {
+  items: AccordionItem[];
+  class?: string;
+}
+
+const {
+  items,
+  class: className
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+---
+
+<div class:list={["divide-y divide-gray-200 dark:divide-gray-700", className]}>
+  {items.map(item => (
+    <div class="py-4">
+      <button
+        type="button"
+        id={`accordion-header-${item.id}`}
+        aria-expanded={item.defaultOpen ? 'true' : 'false'}
+        aria-controls={`accordion-panel-${item.id}`}
+        class="flex justify-between items-center w-full text-left"
+      >
+        <span class="text-base font-medium text-gray-900 dark:text-white">
+          {item.title}
+        </span>
+        <Icon
+          name="lucide:chevron-down"
+          class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200"
+        />
+      </button>
+      <div
+        id={`accordion-panel-${item.id}`}
+        role="region"
+        aria-labelledby={`accordion-header-${item.id}`}
+        class:list={[
+          'mt-2 text-gray-600 dark:text-gray-400',
+          !item.defaultOpen && 'hidden'
+        ]}
+      >
+        {item.content}
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  // Accordion functionality
+  const accordionButtons = document.querySelectorAll('[aria-controls^="accordion-panel-"]');
+  
+  accordionButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      const panelId = button.getAttribute('aria-controls');
+      if (panelId) {
+        const panel = document.getElementById(panelId);
+        const icon = button.querySelector('svg');
+        
+        button.setAttribute('aria-expanded', (!isExpanded).toString());
+        panel?.classList.toggle('hidden');
+        icon?.style.setProperty('transform', isExpanded ? 'rotate(0deg)' : 'rotate(180deg)');
+      }
+    });
+  });
+</script> 

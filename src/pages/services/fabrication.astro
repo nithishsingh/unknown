@@ -1,0 +1,152 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import ServiceCard from '../../components/features/ServiceCard.astro';
+import { Icon } from 'astro-icon/components';
+
+const fabricationServices = [
+  {
+    title: 'Custom Metal Fabrication',
+    description: 'Precision metal fabrication services tailored to your specifications.',
+    icon: 'lucide:hammer',
+    features: [
+      'Sheet metal fabrication',
+      'Metal cutting and forming',
+      'Welding services',
+      'Custom metal parts'
+    ]
+  },
+  {
+    title: 'Precision Machining',
+    description: 'High-precision CNC machining and turning operations.',
+    icon: 'lucide:settings',
+    features: [
+      'CNC milling',
+      'CNC turning',
+      'Multi-axis machining',
+      'Prototype development'
+    ]
+  },
+  // Add more services...
+];
+
+const benefits = [
+  {
+    title: 'Quality Assurance',
+    description: 'Rigorous quality control processes and ISO certifications.',
+    icon: 'lucide:check-circle'
+  },
+  {
+    title: 'Fast Turnaround',
+    description: 'Quick turnaround times without compromising quality.',
+    icon: 'lucide:clock'
+  },
+  {
+    title: 'Custom Solutions',
+    description: 'Tailored solutions to meet your specific requirements.',
+    icon: 'lucide:settings'
+  },
+  {
+    title: 'Expert Team',
+    description: 'Skilled fabricators with years of industry experience.',
+    icon: 'lucide:users'
+  }
+];
+---
+
+<Layout title="Fabrication Services">
+  {/* Hero Section */}
+  <Section background="gradient" padding="lg">
+    <Container>
+      <div class="text-center max-w-3xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          Custom Fabrication Services
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
+          Precision fabrication solutions for your most demanding projects.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/quote" class="btn btn-primary">
+            Request Quote
+          </a>
+          <a href="/contact" class="btn btn-secondary">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  {/* Services Grid */}
+  <Section>
+    <Container>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Our Fabrication Services
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          Comprehensive fabrication solutions for every industry
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {fabricationServices.map(service => (
+          <ServiceCard {...service} />
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  {/* Benefits Section */}
+  <Section background="light">
+    <Container>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Why Choose Our Fabrication Services
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          Experience the advantages of working with industry leaders
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {benefits.map(benefit => (
+          <div class="text-center">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 mb-4">
+              <Icon name={benefit.icon} class="w-6 h-6" />
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              {benefit.title}
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              {benefit.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  {/* CTA Section */}
+  <Section>
+    <Container size="sm">
+      <div class="text-center bg-primary-50 dark:bg-primary-900/10 rounded-2xl p-8 md:p-12">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Ready to Start Your Project?
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+          Contact us today to discuss your fabrication needs and get a custom quote.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/quote" class="btn btn-primary">
+            Request Quote
+          </a>
+          <a href="/contact" class="btn btn-secondary">
+            Contact Sales
+          </a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout> 

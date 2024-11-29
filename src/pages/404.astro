@@ -1,0 +1,62 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
+
+const title = "Page Not Found";
+const description = "The page you're looking for doesn't exist or has been moved.";
+---
+
+<Layout title={title} description={description}>
+  <main class="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
+    <div 
+      class="max-w-2xl w-full text-center space-y-8"
+      data-aos="fade-up"
+      data-aos-duration="800"
+    >
+      {/* 404 Icon/Image */}
+      <div class="relative mx-auto w-48 h-48 mb-8">
+        <Icon 
+          name="lucide:file-question" 
+          class="w-full h-full text-primary-600/20 dark:text-primary-400/20" 
+        />
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="text-5xl font-bold text-primary-700 dark:text-primary-300">
+            404
+          </span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div class="space-y-4">
+        <h1 class="text-3xl md:text-4xl font-bold text-primary-900 dark:text-white">
+          {title}
+        </h1>
+        <p class="text-lg text-accent-steel-600 dark:text-dark-text-secondary">
+          {description}
+        </p>
+      </div>
+
+      {/* Action Buttons */}
+      <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+        <a 
+          href="/"
+          class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-300"
+        >
+          <span class="flex items-center justify-center gap-2">
+            <Icon name="lucide:home" class="w-5 h-5" />
+            Return Home
+          </span>
+        </a>
+        <button 
+          onclick="history.back()"
+          class="px-6 py-3 border border-primary-600 text-primary-700 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors duration-300"
+        >
+          <span class="flex items-center justify-center gap-2">
+            <Icon name="lucide:arrow-left" class="w-5 h-5" />
+            Go Back
+          </span>
+        </button>
+      </div>
+    </div>
+  </main>
+</Layout> 

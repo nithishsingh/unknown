@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog-posts');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={`${post.data.title} - Krrish & Co Blog`}>
+  <main>
+    {/* Hero Section */}
+    <Section class="py-20" background="primary">
+      <Container>
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center">
+            <h1 class="text-5xl font-bold mb-6">{post.data.title}</h1>
+            <div class="flex items-center justify-center space-x-4 text-gray-600">
+              <span>{new Date(post.data.publishedDate).toLocaleDateString()}</span>
+              <span>•</span>
+              <span>{post.data.author}</span>
+            </div>
+          </div>
+          {post.data.image && (
+            <div class="mt-12 relative h-[400px] rounded-xl overflow-hidden">
+              <img
+                src={post.data.image}
+                alt={post.data.title}
+                class="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+          )}
+        </div>
+      </Container>
+    </Section>
+
+    {/* Content */}
+    <Section class="py-16">
+      <Container>
+        <div class="max-w-3xl mx-auto prose prose-lg">
+          <Content />
+        </div>
+      </Container>
+    </Section>
+  </main>
+</Layout>

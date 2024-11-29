@@ -1,0 +1,47 @@
+---
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  cols?: 1 | 2 | 3 | 4 | 5 | 6 | 'auto-fill' | 'auto-fit';
+  gap?: 'none' | 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  as: Element = 'div',
+  cols = 3,
+  gap = 'md',
+  class: className
+} = Astro.props;
+
+type GapKey = NonNullable<Props['gap']>;
+type ColKey = NonNullable<Props['cols']>;
+
+const gaps: Record<GapKey, string> = {
+  none: 'gap-0',
+  sm: 'gap-4',
+  md: 'gap-6',
+  lg: 'gap-8'
+};
+
+const columns: Record<ColKey, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 sm:grid-cols-2',
+  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
+  5: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5',
+  6: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6',
+  'auto-fill': 'grid-cols-[repeat(auto-fill,minmax(280px,1fr))]',
+  'auto-fit': 'grid-cols-[repeat(auto-fit,minmax(280px,1fr))]'
+};
+---
+
+<Element
+  class:list={[
+    'grid',
+    columns[cols],
+    gaps[gap],
+    className
+  ]}
+>
+  <slot />
+</Element> 

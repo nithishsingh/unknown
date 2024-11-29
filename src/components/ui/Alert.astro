@@ -1,0 +1,79 @@
+---
+interface Props {
+  type?: 'info' | 'success' | 'warning' | 'error';
+  title?: string;
+  dismissible?: boolean;
+  class?: string;
+}
+
+const {
+  type = 'info',
+  title,
+  dismissible = false,
+  class: className
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+
+const icons = {
+  info: 'lucide:info',
+  success: 'lucide:check-circle',
+  warning: 'lucide:alert-triangle',
+  error: 'lucide:x-circle'
+};
+
+const styles = {
+  info: 'bg-blue-50 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300',
+  success: 'bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-300',
+  warning: 'bg-yellow-50 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300',
+  error: 'bg-red-50 text-red-800 dark:bg-red-900/20 dark:text-red-300'
+};
+---
+
+<div
+  role="alert"
+  class:list={[
+    'rounded-lg p-4',
+    styles[type],
+    dismissible && 'pr-12',
+    className
+  ]}
+>
+  <div class="flex">
+    <Icon name={icons[type]} class="h-5 w-5 mt-0.5" />
+    <div class="ml-3">
+      {title && (
+        <h3 class="text-sm font-medium">
+          {title}
+        </h3>
+      )}
+      <div class:list={[
+        "text-sm",
+        title && "mt-2"
+      ]}>
+        <slot />
+      </div>
+    </div>
+    {dismissible && (
+      <button
+        type="button"
+        class="absolute right-4 top-4 text-current hover:opacity-75"
+        aria-label="Dismiss"
+      >
+        <Icon name="lucide:x" class="h-5 w-5" />
+      </button>
+    )}
+  </div>
+</div>
+
+<script>
+  // Dismissible functionality
+  const dismissButtons = document.querySelectorAll('[aria-label="Dismiss"]');
+  
+  dismissButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const alert = button.closest('[role="alert"]');
+      alert?.remove();
+    });
+  });
+</script> 

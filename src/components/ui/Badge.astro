@@ -1,0 +1,29 @@
+---
+interface Props {
+  variant?: 'primary' | 'success' | 'warning';
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const variants = {
+  primary: 'badge-primary',
+  success: 'badge-success',
+  warning: 'badge-warning'
+};
+---
+
+<span
+  class:list={[
+    'badge',
+    variants[variant],
+    className
+  ]}
+  {...rest}
+>
+  <slot />
+</span> 

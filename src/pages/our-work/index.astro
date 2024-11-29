@@ -1,0 +1,119 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import { getCollection } from 'astro:content';
+
+// Get work items
+const workItems = await getCollection('our-work');
+const sortedWork = workItems.sort((a, b) => 
+  new Date(b.data.completionDate).getTime() - new Date(a.data.completionDate).getTime()
+);
+
+// Get unique categories
+const categories = [...new Set(workItems.map(item => item.data.category))];
+---
+
+<Layout title="Our Work - Krrish & Co">
+  <main>
+    {/* Hero Section */}
+    <Section class="py-20" background="primary">
+      <Container>
+        <div class="text-center">
+          <h1 class="text-5xl font-bold mb-6">Our Work</h1>
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Explore our portfolio of successful engineering projects and solutions.
+          </p>
+        </div>
+      </Container>
+    </Section>
+
+    {/* Work Grid */}
+    <Section class="py-16">
+      <Container>
+        {/* Category Filter */}
+        <div class="flex flex-wrap gap-4 justify-center mb-12">
+          <button
+            class="px-6 py-2 rounded-full bg-primary-600 text-white font-medium hover:bg-primary-700 transition-colors"
+            data-category="all"
+          >
+            All
+          </button>
+          {categories.map(category => (
+            <button
+              class="px-6 py-2 rounded-full bg-gray-200 text-gray-800 font-medium hover:bg-gray-300 transition-colors"
+              data-category={category}
+            >
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Work Items Grid */}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {sortedWork.map(item => (
+            <a href={`/our-work/${item.slug}`} class="group" data-category={item.data.category}>
+              <article class="bg-white rounded-lg overflow-hidden shadow-lg transition-shadow group-hover:shadow-xl">
+                {item.data.thumbnail && (
+                  <div class="relative h-64">
+                    <img
+                      src={item.data.thumbnail}
+                      alt={item.data.title}
+                      class="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div class="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span class="text-white font-medium">View Project</span>
+                    </div>
+                  </div>
+                )}
+                <div class="p-6">
+                  <h3 class="text-xl font-bold mb-2 group-hover:text-primary-600">
+                    {item.data.title}
+                  </h3>
+                  <div class="flex items-center text-sm text-gray-500 mb-2">
+                    <span>{new Date(item.data.completionDate).toLocaleDateString()}</span>
+                    <span class="mx-2">•</span>
+                    <span>{item.data.category}</span>
+                  </div>
+                  <p class="text-gray-600">{item.data.client}</p>
+                </div>
+              </article>
+            </a>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  </main>
+</Layout>
+
+<script>
+  // Category filtering
+  const buttons = document.querySelectorAll('[data-category]');
+  const workItems = document.querySelectorAll('[data-category]');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const category = button.getAttribute('data-category');
+      
+      // Update button styles
+      buttons.forEach(btn => {
+        if (btn === button) {
+          btn.classList.remove('bg-gray-200', 'text-gray-800');
+          btn.classList.add('bg-primary-600', 'text-white');
+        } else {
+          btn.classList.remove('bg-primary-600', 'text-white');
+          btn.classList.add('bg-gray-200', 'text-gray-800');
+        }
+      });
+
+      // Filter work items
+      workItems.forEach(item => {
+        if (category === 'all' || item.getAttribute('data-category') === category) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

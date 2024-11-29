@@ -1,0 +1,49 @@
+---
+interface Props {
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel';
+  label?: string;
+  name: string;
+  placeholder?: string;
+  required?: boolean;
+  error?: string;
+  class?: string;
+}
+
+const {
+  type = 'text',
+  label,
+  name,
+  placeholder,
+  required = false,
+  error,
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+<div class="form-group">
+  {label && (
+    <label for={name} class="form-label">
+      {label}
+      {required && <span class="text-red-500">*</span>}
+    </label>
+  )}
+  <input
+    type={type}
+    id={name}
+    name={name}
+    placeholder={placeholder}
+    required={required}
+    class:list={[
+      'input-base',
+      error && 'border-red-500 focus:ring-red-500',
+      className
+    ]}
+    {...rest}
+  />
+  {error && (
+    <p class="mt-1 text-sm text-red-500">
+      {error}
+    </p>
+  )}
+</div> 

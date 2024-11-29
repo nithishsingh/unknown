@@ -37,6 +37,17 @@ const serviceSchema = z.object({
   content: z.string().optional()
 });
 
+// Define blog post schema
+const blogPostSchema = z.object({
+  title: z.string(),
+  publishedDate: z.string().or(z.date()),
+  author: z.string(),
+  excerpt: z.string(),
+  featured: z.boolean().default(false),
+  image: z.string().optional(),
+  content: z.string().optional()
+});
+
 export const collections = {
   'hero': defineCollection({
     type: 'content',
@@ -49,5 +60,9 @@ export const collections = {
   'services': defineCollection({
     type: 'content',
     schema: serviceSchema,
+  }),
+  'blog-posts': defineCollection({
+    type: 'content',
+    schema: blogPostSchema,
   })
-}; 
+};
