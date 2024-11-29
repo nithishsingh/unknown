@@ -1,0 +1,202 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import ServiceCard from '../../components/features/ServiceCard.astro';
+import FAQ from '../../components/features/FAQ.astro';
+import { Icon } from 'astro-icon/components';
+
+const expertiseAreas = [
+  {
+    title: 'Engineering Consultation',
+    description: 'Expert guidance for your technical projects and challenges.',
+    icon: 'lucide:lightbulb',
+    features: [
+      'Technical feasibility studies',
+      'Design optimization',
+      'Process improvement',
+      'Cost reduction analysis'
+    ]
+  },
+  {
+    title: 'Technical Training',
+    description: 'Comprehensive training programs for your team.',
+    icon: 'lucide:graduation-cap',
+    features: [
+      'Equipment operation',
+      'Safety procedures',
+      'Quality control',
+      'Best practices'
+    ]
+  },
+  {
+    title: 'Project Management',
+    description: 'Professional oversight of technical projects.',
+    icon: 'lucide:git-merge',
+    features: [
+      'Timeline management',
+      'Resource allocation',
+      'Risk assessment',
+      'Quality assurance'
+    ]
+  },
+  {
+    title: 'Technical Support',
+    description: '24/7 support for your operations.',
+    icon: 'lucide:headphones',
+    features: [
+      'Remote assistance',
+      'On-site support',
+      'Troubleshooting',
+      'Maintenance guidance'
+    ]
+  }
+];
+
+const faqItems = [
+  {
+    question: 'What industries do you serve?',
+    answer: 'We provide technical expertise across various industries including manufacturing, aerospace, automotive, and energy sectors. Our team has extensive experience working with diverse technical requirements and industry standards.'
+  },
+  {
+    question: 'How do you ensure quality in your consulting services?',
+    answer: 'We maintain strict quality control processes, follow industry best practices, and regularly update our knowledge base. Our team of experts undergoes continuous training to stay current with the latest technological advancements.'
+  },
+  {
+    question: 'Can you provide emergency technical support?',
+    answer: 'Yes, we offer 24/7 emergency technical support for critical operations. Our rapid response team is always ready to assist with urgent technical issues and minimize downtime.'
+  },
+  {
+    question: 'Do you offer customized training programs?',
+    answer: 'Yes, we develop customized training programs tailored to your specific needs, equipment, and industry requirements. Our training can be conducted on-site or remotely.'
+  }
+];
+---
+
+<Layout title="Technical Expertise">
+  {/* Hero Section */}
+  <Section background="gradient" padding="lg">
+    <Container>
+      <div class="text-center max-w-3xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          Technical Expertise & Consulting
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
+          Expert guidance and support for your technical challenges
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/contact" class="btn btn-primary">
+            Get Expert Help
+          </a>
+          <a href="/services" class="btn btn-secondary">
+            View All Services
+          </a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  {/* Expertise Areas */}
+  <Section>
+    <Container>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Areas of Expertise
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          Comprehensive technical solutions for your business
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {expertiseAreas.map(area => (
+          <ServiceCard {...area} />
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  {/* Process Section */}
+  <Section background="light">
+    <Container>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Our Consulting Process
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-400">
+          A systematic approach to solving technical challenges
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {[
+          {
+            step: '01',
+            title: 'Assessment',
+            description: 'Thorough evaluation of your technical needs and challenges'
+          },
+          {
+            step: '02',
+            title: 'Strategy',
+            description: 'Development of customized solutions and action plans'
+          },
+          {
+            step: '03',
+            title: 'Implementation',
+            description: 'Expert execution of proposed solutions'
+          },
+          {
+            step: '04',
+            title: 'Support',
+            description: 'Ongoing assistance and optimization'
+          }
+        ].map(phase => (
+          <div class="relative">
+            <div class="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-4">
+              {phase.step}
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {phase.title}
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              {phase.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  {/* FAQ Section */}
+  <Section>
+    <Container>
+      <FAQ
+        title="Technical Expertise FAQ"
+        description="Common questions about our technical consulting services"
+        items={faqItems}
+      />
+    </Container>
+  </Section>
+
+  {/* CTA Section */}
+  <Section background="primary">
+    <Container size="sm">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">
+          Need Technical Expertise?
+        </h2>
+        <p class="text-xl text-primary-100 mb-8">
+          Let's discuss how we can help solve your technical challenges.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/contact" class="btn btn-white">
+            Contact Our Experts
+          </a>
+          <a href="/quote" class="btn btn-outline-white">
+            Request Quote
+          </a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout> 

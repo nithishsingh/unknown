@@ -1,0 +1,13 @@
+{
+    "tally": {
+        "formId": "3l0ykX",
+        "defaultWidth": "100%",
+        "defaultHeight": "500"
+    },
+    "calendar": {
+        "username": "nithish-krishna-ugq2b3",
+        "defaultWidth": "100%",
+        "defaultHeight": "600",
+        "apiKey": "YOUR_CAL_API_KEY"
+    }
+}

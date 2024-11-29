@@ -1,0 +1,166 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  closeOnClickOutside?: boolean;
+  showClose?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  description,
+  size = 'md',
+  closeOnClickOutside = true,
+  showClose = true,
+  class: className
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+
+const sizes = {
+  sm: 'max-w-sm',
+  md: 'max-w-md',
+  lg: 'max-w-lg',
+  xl: 'max-w-xl',
+  full: 'max-w-full mx-4'
+};
+---
+
+<div
+  id={id}
+  class="fixed inset-0 z-50 hidden"
+  role="dialog"
+  aria-labelledby={`${id}-title`}
+  aria-describedby={description ? `${id}-description` : undefined}
+  aria-modal="true"
+>
+  {/* Backdrop */}
+  <div class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" data-close></div>
+  
+  {/* Dialog position wrapper */}
+  <div class="fixed inset-0 z-10 overflow-y-auto">
+    <div class="flex min-h-full items-end justify-center p-4 sm:items-center">
+      {/* Dialog panel */}
+      <div
+        class:list={[
+          "relative w-full transform rounded-lg bg-white dark:bg-dark-surface",
+          "text-left shadow-xl transition-all",
+          sizes[size],
+          className
+        ]}
+      >
+        {/* Close button */}
+        {showClose && (
+          <button
+            type="button"
+            class="absolute right-4 top-4 text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+            aria-label="Close dialog"
+            data-close
+          >
+            <Icon name="lucide:x" class="h-5 w-5" />
+          </button>
+        )}
+        
+        {/* Header */}
+        <div class="px-6 pt-6 pb-4">
+          <h2 id={`${id}-title`} class="text-lg font-semibold text-gray-900 dark:text-white">
+            {title}
+          </h2>
+          {description && (
+            <p
+              id={`${id}-description`}
+              class="mt-2 text-sm text-gray-500 dark:text-gray-400"
+            >
+              {description}
+            </p>
+          )}
+        </div>
+        
+        {/* Content */}
+        <div class="px-6 pb-6">
+          <slot />
+        </div>
+        
+        {/* Footer */}
+        <div class="border-t border-gray-200 dark:border-gray-700 px-6 py-4">
+          <slot name="footer" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Declare types first
+  declare global {
+    interface Window {
+      openDialog: (id: string) => void;
+      closeDialog: (dialog: HTMLElement) => void;
+    }
+  }
+
+  class DialogManager {
+    static init() {
+      const dialogs = document.querySelectorAll('[role="dialog"]');
+      
+      dialogs.forEach(dialog => {
+        // Get close triggers
+        const closeTriggers = dialog.querySelectorAll('[data-close]');
+        
+        // Handle close events
+        closeTriggers.forEach(trigger => {
+          trigger.addEventListener('click', () => {
+            this.closeDialog(dialog as HTMLElement);
+          });
+        });
+        
+        // Handle click outside
+        dialog.addEventListener('click', (e) => {
+          if ((e.target as HTMLElement).hasAttribute('data-close')) {
+            this.closeDialog(dialog as HTMLElement);
+          }
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !dialog.classList.contains('hidden')) {
+            this.closeDialog(dialog as HTMLElement);
+          }
+        });
+      });
+    }
+    
+    static openDialog(id: string) {
+      const dialog = document.getElementById(id);
+      if (dialog) {
+        dialog.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    static closeDialog(dialog: HTMLElement) {
+      dialog.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  }
+  
+  // Initialize on load
+  document.addEventListener('DOMContentLoaded', () => {
+    DialogManager.init();
+  });
+  
+  // Expose to window for external use
+  (window as Window).openDialog = DialogManager.openDialog;
+  (window as Window).closeDialog = DialogManager.closeDialog;
+</script>
+
+<script>
+  interface Window {
+    openDialog: (id: string) => void;
+    closeDialog: (dialog: HTMLElement) => void;
+  }
+</script> 

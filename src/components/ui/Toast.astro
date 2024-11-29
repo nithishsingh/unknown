@@ -1,0 +1,88 @@
+---
+interface Props {
+  type?: 'success' | 'error' | 'warning' | 'info';
+  title: string;
+  message?: string;
+  duration?: number;
+  class?: string;
+}
+
+const {
+  type = 'info',
+  title,
+  message,
+  duration = 5000,
+  class: className
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+
+const icons = {
+  success: 'lucide:check-circle',
+  error: 'lucide:x-circle',
+  warning: 'lucide:alert-triangle',
+  info: 'lucide:info'
+};
+
+const colors = {
+  success: 'bg-green-50 text-green-800 dark:bg-green-900/20 dark:text-green-300',
+  error: 'bg-red-50 text-red-800 dark:bg-red-900/20 dark:text-red-300',
+  warning: 'bg-yellow-50 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300',
+  info: 'bg-blue-50 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300'
+};
+---
+
+<div
+  role="alert"
+  class:list={[
+    'fixed top-4 right-4 flex items-start p-4 rounded-lg shadow-lg max-w-sm',
+    'transform transition-all duration-300 translate-x-full opacity-0',
+    colors[type],
+    className
+  ]}
+  data-duration={duration}
+>
+  <Icon name={icons[type]} class="w-5 h-5 mt-0.5 mr-3" />
+  <div class="flex-1">
+    <h3 class="font-medium">{title}</h3>
+    {message && <p class="mt-1 text-sm opacity-90">{message}</p>}
+  </div>
+  <button
+    type="button"
+    class="ml-4 inline-flex text-gray-400 hover:text-gray-500 focus:outline-none"
+    aria-label="Close notification"
+  >
+    <Icon name="lucide:x" class="w-5 h-5" />
+  </button>
+</div>
+
+<script>
+  class ToastManager {
+    private static showToast(toast: HTMLElement) {
+      toast.classList.remove('translate-x-full', 'opacity-0');
+      
+      const duration = parseInt(toast.dataset.duration || '5000');
+      
+      setTimeout(() => {
+        this.hideToast(toast);
+      }, duration);
+      
+      const closeButton = toast.querySelector('button');
+      closeButton?.addEventListener('click', () => this.hideToast(toast));
+    }
+    
+    private static hideToast(toast: HTMLElement) {
+      toast.classList.add('translate-x-full', 'opacity-0');
+      setTimeout(() => toast.remove(), 300);
+    }
+    
+    static init() {
+      const toasts = document.querySelectorAll('[role="alert"]');
+      toasts.forEach(toast => this.showToast(toast as HTMLElement));
+    }
+  }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    ToastManager.init();
+  });
+</script> 

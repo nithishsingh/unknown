@@ -1,0 +1,48 @@
+---
+/**
+ * @component Card
+ * @description A reusable card component for displaying content with optional icon
+ * 
+ * @prop {string} title - The card title
+ * @prop {string} description - The card description
+ * @prop {string} [icon] - Optional icon name from lucide icons
+ */
+
+import { Icon } from 'astro-icon/components';
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  title: string;
+  description: string;
+  icon?: string;
+  class?: string;
+}
+
+const { 
+  title, 
+  description, 
+  icon, 
+  class: className,
+  ...props 
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "bg-primary-100 rounded-lg shadow-lg p-6",
+    "transition-transform duration-300 hover:-translate-y-1",
+    className
+  ]}
+  data-aos="fade-up"
+  data-aos-delay="100"
+  {...props}
+>
+  {icon && (
+    <div class="bg-primary-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+      <Icon name={icon} class="w-6 h-6 text-primary-700" />
+    </div>
+  )}
+  <h3 class="text-xl font-bold text-primary-900 mb-2">{title}</h3>
+  <p class="text-accent-steel-600">{description}</p>
+  <slot />
+</div> 

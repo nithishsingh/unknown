@@ -1,66 +1,123 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Container from '../components/layout/Container.astro';
+import Section from '../components/layout/Section.astro';
 import Hero from '../components/Hero.astro';
+import ProcessFlow from '../components/sections/ProcessFlow.astro';
+import Industries from '../components/sections/Industries.astro';
+import ServicesShowcase from '../components/sections/ServicesShowcase.astro';
+import NewsletterSignup from '../components/features/NewsletterSignup.astro';
+import TallyForm from '../components/features/TallyForm.astro';
+import CalendarBooking from '../components/features/CalendarBooking.astro';
 import { getCollection } from 'astro:content';
 
-// Get hero content from the hero collection
-const heroContent = await getCollection('hero');
-const mainHero = heroContent[0]?.data || {
-  title: "Industrial Excellence in Fabrication & Supply",
-  subtitle: "15+ Years of Precision Manufacturing",
-  description: "Your trusted partner in industrial fabrication, material supply, and hardware solutions. Based in Hosur, Tamil Nadu, delivering excellence across India.",
-  stats: {
-    projects: "500+",
-    clients: "200+",
-    experience: "15+"
-  }
-};
-
-// Get slides from hero-slides collection
+// Get hero slides
 const slides = await getCollection('hero-slides');
 const sortedSlides = slides.sort((a, b) => a.data.order - b.data.order);
+
+// Hero Data
+const heroData = {
+  title: "Engineering Excellence",
+  subtitle: "Innovative Solutions",
+  description: "Delivering cutting-edge engineering solutions for modern industrial challenges.",
+  stats: {
+    projects: "100+",
+    clients: "50+",
+    experience: "15+ Years"
+  },
+  slides: sortedSlides
+};
+
 ---
 
-<Layout title="Home">
-  <Hero
-    title={mainHero.title}
-    subtitle={mainHero.subtitle}
-    description={mainHero.description}
-  >
-    <div slot="description" class="space-y-6 md:space-y-8">
-      <p class="text-base md:text-lg text-gray-700">
-        {mainHero.description}
-      </p>
+<Layout title="Krrish & Co - Engineering Excellence">
+  <main class="relative overflow-hidden">
+    {/* Hero Section */}
       
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-        <div class="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-          <span class="block text-2xl md:text-3xl font-bold text-primary-600 mb-1">{mainHero.stats.projects}</span>
-          <span class="text-xs md:text-sm text-gray-600">Projects Completed</span>
-        </div>
-        <div class="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-          <span class="block text-2xl md:text-3xl font-bold text-primary-600 mb-1">{mainHero.stats.clients}</span>
-          <span class="text-xs md:text-sm text-gray-600">Happy Clients</span>
-        </div>
-        <div class="bg-white p-3 md:p-4 rounded-lg shadow-sm col-span-2 md:col-span-1">
-          <span class="block text-2xl md:text-3xl font-bold text-primary-600 mb-1">{mainHero.stats.experience}</span>
-          <span class="text-xs md:text-sm text-gray-600">Years Experience</span>
-        </div>
-      </div>
+        <Hero {...heroData} />
+  
+   
 
-      <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
-        <a 
-          href="/contact" 
-          class="w-full sm:w-auto text-center px-4 md:px-6 py-2.5 md:py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
-        >
-          Request a Quote
-        </a>
-        <a 
-          href="/portfolio" 
-          class="w-full sm:w-auto text-center px-4 md:px-6 py-2.5 md:py-3 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors"
-        >
-          View Our Work
-        </a>
-      </div>
-    </div>
-  </Hero>
-</Layout> 
+    {/* Services Showcase */}
+   
+      
+        <ServicesShowcase />
+      
+   
+
+    {/* Process Flow */}
+    
+    
+        <ProcessFlow />
+      
+  
+
+    {/* Industries We Serve */}
+   
+      
+        <Industries />
+  
+
+    {/* Newsletter Section */}
+    <Section class="py-20" background="primary">
+      <Container size="sm">
+        <NewsletterSignup
+          title="Stay Informed"
+          description="Subscribe to our newsletter for the latest industry insights and updates."
+          buttonText="Subscribe"
+        />
+      </Container>
+    </Section>
+
+    {/* Contact Form Section */}
+    <Section class="py-20" id="contact-form">
+      <Container>
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold mb-4">Get in Touch</h2>
+          <p class="text-gray-600">Fill out the form below and we'll get back to you shortly.</p>
+        </div>
+        <TallyForm />
+      </Container>
+    </Section>
+
+    {/* Booking Section */}
+    <Section class="py-20" background="secondary">
+      <Container>
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold mb-4">Schedule a Consultation</h2>
+          <p class="text-gray-600">Book a time that works best for you to discuss your project.</p>
+        </div>
+        <CalendarBooking />
+      </Container>
+    </Section>
+
+    {/* CTA Section */}
+    <Section>
+      <Container size="sm">
+        <div class="text-center bg-primary-50 dark:bg-primary-900/10 rounded-2xl p-8 md:p-12">
+          <h2 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            Ready to Transform Your Business?
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+            Let's discuss how our engineering solutions can help you achieve your goals.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="/contact" class="btn btn-primary">
+              Get Started
+            </a>
+            <a href="/services" class="btn btn-secondary">
+              View Services
+            </a>
+          </div>
+        </div>
+      </Container>
+    </Section>
+  </main>
+</Layout>
+
+<style>
+  /* Add any page-specific styles here */
+  :root {
+    scroll-behavior: smooth;
+  }
+</style>

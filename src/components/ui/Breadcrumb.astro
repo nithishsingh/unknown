@@ -1,0 +1,45 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  class?: string;
+}
+
+const {
+  items,
+  class: className
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+---
+
+<nav aria-label="Breadcrumb" class:list={["flex", className]}>
+  <ol class="flex items-center space-x-2">
+    {items.map((item, index) => (
+      <li class="flex items-center">
+        {index > 0 && (
+          <Icon 
+            name="lucide:chevron-right" 
+            class="w-4 h-4 mx-2 text-gray-400 dark:text-gray-600"
+          />
+        )}
+        {item.href ? (
+          <a
+            href={item.href}
+            class="text-sm text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+          >
+            {item.label}
+          </a>
+        ) : (
+          <span class="text-sm text-gray-800 dark:text-gray-200">
+            {item.label}
+          </span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav> 

@@ -1,0 +1,147 @@
+---
+interface Props {
+  label?: string;
+  name: string;
+  accept?: string;
+  multiple?: boolean;
+  required?: boolean;
+  error?: string;
+  class?: string;
+  maxSize?: number; // in MB
+}
+
+const {
+  label,
+  name,
+  accept,
+  multiple = false,
+  required = false,
+  error,
+  class: className,
+  maxSize
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+---
+
+<div class:list={["w-full", className]}>
+  {label && (
+    <label for={name} class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+      {label}
+      {required && <span class="text-red-500">*</span>}
+    </label>
+  )}
+  
+  <div class="relative">
+    <label
+      class:list={[
+        "flex justify-center items-center w-full h-32 px-4 transition",
+        "border-2 border-gray-300 border-dashed rounded-lg",
+        "bg-white dark:bg-dark-surface cursor-pointer",
+        "hover:bg-gray-50 dark:hover:bg-dark-surface-soft",
+        error && "border-red-500"
+      ]}
+    >
+      <div class="space-y-1 text-center">
+        <Icon
+          name="lucide:upload-cloud"
+          class="mx-auto h-12 w-12 text-gray-400"
+        />
+        <div class="text-sm text-gray-600 dark:text-gray-400">
+          <span class="font-medium text-primary-600 dark:text-primary-400">
+            Click to upload
+          </span>
+          {" or drag and drop"}
+        </div>
+        {maxSize && (
+          <p class="text-xs text-gray-500 dark:text-gray-500">
+            Max file size: {maxSize}MB
+          </p>
+        )}
+      </div>
+      <input
+        id={name}
+        name={name}
+        type="file"
+        accept={accept}
+        multiple={multiple}
+        required={required}
+        class="hidden"
+      />
+    </label>
+    {error && (
+      <p class="mt-1 text-sm text-red-500">
+        {error}
+      </p>
+    )}
+  </div>
+</div>
+
+<script>
+  // File upload functionality
+  const fileInputs = document.querySelectorAll<HTMLInputElement>('input[type="file"]');
+  
+  fileInputs.forEach(input => {
+    const wrapper = input.closest('label');
+    const maxSize = Number(input.getAttribute('data-max-size')) * 1024 * 1024; // Convert MB to bytes
+    
+    // Handle drag and drop
+    wrapper?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      wrapper.classList.add('border-primary-500');
+    });
+    
+    wrapper?.addEventListener('dragleave', () => {
+      wrapper.classList.remove('border-primary-500');
+    });
+    
+    wrapper?.addEventListener('drop', (e: DragEvent) => {
+      e.preventDefault();
+      wrapper.classList.remove('border-primary-500');
+      
+      if (e.dataTransfer?.files) {
+        const fileList = e.dataTransfer.files;
+        if (input.multiple) {
+          // Create a new FileList-like object
+          const dt = new DataTransfer();
+          Array.from(fileList).forEach(file => dt.items.add(file));
+          input.files = dt.files;
+        } else {
+          // Only take the first file if multiple is not allowed
+          const dt = new DataTransfer();
+          dt.items.add(fileList[0]);
+          input.files = dt.files;
+        }
+        handleFiles(input);
+      }
+    });
+    
+    // Handle file selection
+    input.addEventListener('change', () => handleFiles(input));
+    
+    function handleFiles(input: HTMLInputElement) {
+      const files = Array.from(input.files || []);
+      
+      // Check file size if maxSize is set
+      if (maxSize) {
+        const oversizedFiles = files.filter(file => file.size > maxSize);
+        if (oversizedFiles.length > 0) {
+          const errorEvent = new CustomEvent('file-error', {
+            detail: {
+              message: `File(s) exceed maximum size of ${maxSize / (1024 * 1024)}MB`
+            }
+          });
+          input.dispatchEvent(errorEvent);
+          input.value = '';
+          return;
+        }
+      }
+      
+      // Dispatch success event with files
+      const successEvent = new CustomEvent('file-success', {
+        detail: { files }
+      });
+      input.dispatchEvent(successEvent);
+    }
+  });
+</script> 

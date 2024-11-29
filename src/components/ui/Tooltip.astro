@@ -1,0 +1,58 @@
+---
+interface Props {
+  content: string;
+  position?: 'top' | 'right' | 'bottom' | 'left';
+  class?: string;
+}
+
+const {
+  content,
+  position = 'top',
+  class: className
+} = Astro.props;
+
+const positions = {
+  top: '-translate-x-1/2 -translate-y-full left-1/2 bottom-[calc(100%+5px)]',
+  right: 'translate-y-1/2 left-[calc(100%+5px)] top-1/2',
+  bottom: '-translate-x-1/2 translate-y-full left-1/2 top-[calc(100%+5px)]',
+  left: 'translate-y-1/2 right-[calc(100%+5px)] top-1/2'
+};
+
+const arrows = {
+  top: 'bottom-[-4px] left-1/2 -translate-x-1/2 border-t-gray-700',
+  right: 'left-[-4px] top-1/2 -translate-y-1/2 border-r-gray-700',
+  bottom: 'top-[-4px] left-1/2 -translate-x-1/2 border-b-gray-700',
+  left: 'right-[-4px] top-1/2 -translate-y-1/2 border-l-gray-700'
+};
+---
+
+<div class:list={["group relative inline-block", className]}>
+  <slot />
+  <div class:list={[
+    "absolute z-10 hidden group-hover:block px-2 py-1 text-xs text-white",
+    "bg-gray-700 dark:bg-gray-800 rounded shadow-lg whitespace-nowrap",
+    positions[position]
+  ]}>
+    {content}
+    <div class:list={[
+      "absolute w-2 h-2 rotate-45 bg-gray-700 dark:bg-gray-800",
+      arrows[position]
+    ]} />
+  </div>
+</div>
+
+<style>
+  /* Fade in animation */
+  .group:hover > div:last-child {
+    animation: tooltip-fade 0.2s ease-in-out;
+  }
+
+  @keyframes tooltip-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style> 

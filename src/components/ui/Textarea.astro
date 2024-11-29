@@ -1,0 +1,49 @@
+---
+interface Props {
+  label?: string;
+  name: string;
+  placeholder?: string;
+  required?: boolean;
+  error?: string;
+  class?: string;
+  rows?: number;
+}
+
+const {
+  label,
+  name,
+  placeholder,
+  required = false,
+  error,
+  class: className,
+  rows = 4,
+  ...rest
+} = Astro.props;
+---
+
+<div class="form-group">
+  {label && (
+    <label for={name} class="form-label">
+      {label}
+      {required && <span class="text-red-500">*</span>}
+    </label>
+  )}
+  <textarea
+    id={name}
+    name={name}
+    rows={rows}
+    placeholder={placeholder}
+    required={required}
+    class:list={[
+      'input-base resize-y min-h-[100px]',
+      error && 'border-red-500 focus:ring-red-500',
+      className
+    ]}
+    {...rest}
+  />
+  {error && (
+    <p class="mt-1 text-sm text-red-500">
+      {error}
+    </p>
+  )}
+</div> 

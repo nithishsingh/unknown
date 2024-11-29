@@ -1,0 +1,81 @@
+---
+interface Tab {
+  id: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  tabs: Tab[];
+  defaultTab?: string;
+  class?: string;
+}
+
+const {
+  tabs,
+  defaultTab = tabs[0]?.id,
+  class: className
+} = Astro.props;
+---
+
+<div class:list={["w-full", className]}>
+  <div class="border-b border-gray-200 dark:border-gray-700">
+    <nav class="flex space-x-8" aria-label="Tabs">
+      {tabs.map(tab => (
+        <button
+          type="button"
+          id={`tab-${tab.id}`}
+          role="tab"
+          aria-controls={`panel-${tab.id}`}
+          aria-selected={tab.id === defaultTab}
+          disabled={tab.disabled}
+          class:list={[
+            'py-4 px-1 text-sm font-medium border-b-2 whitespace-nowrap',
+            tab.id === defaultTab ? [
+              'border-primary-600 text-primary-600',
+              'dark:border-primary-400 dark:text-primary-400'
+            ] : [
+              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+              'dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'
+            ],
+            tab.disabled && 'opacity-50 cursor-not-allowed'
+          ]}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </nav>
+  </div>
+  <div class="mt-4">
+    <slot />
+  </div>
+</div>
+
+<script>
+  // Tab functionality
+  const tabButtons = document.querySelectorAll('[role="tab"]');
+  const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tabId = button.id.replace('tab-', '');
+      
+      // Update tab button states
+      tabButtons.forEach(btn => {
+        btn.setAttribute('aria-selected', 'false');
+        btn.classList.remove('border-primary-600', 'text-primary-600');
+        btn.classList.add('border-transparent', 'text-gray-500');
+      });
+      
+      button.setAttribute('aria-selected', 'true');
+      button.classList.remove('border-transparent', 'text-gray-500');
+      button.classList.add('border-primary-600', 'text-primary-600');
+      
+      // Show selected panel
+      tabPanels.forEach(panel => {
+        panel.classList.add('hidden');
+      });
+      document.getElementById(`panel-${tabId}`)?.classList.remove('hidden');
+    });
+  });
+</script> 

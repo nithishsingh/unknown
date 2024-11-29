@@ -1,0 +1,77 @@
+---
+interface Option {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+interface Props {
+  label?: string;
+  name: string;
+  options: Option[];
+  defaultValue?: string;
+  required?: boolean;
+  error?: string;
+  class?: string;
+  inline?: boolean;
+}
+
+const {
+  label,
+  name,
+  options,
+  defaultValue,
+  required = false,
+  error,
+  class: className,
+  inline = false,
+  ...rest
+} = Astro.props;
+---
+
+<div class="form-group">
+  {label && (
+    <label class="form-label mb-2">
+      {label}
+      {required && <span class="text-red-500">*</span>}
+    </label>
+  )}
+  <div class:list={[
+    inline ? 'flex space-x-4' : 'space-y-2',
+    className
+  ]}>
+    {options.map(option => (
+      <div class="flex items-center">
+        <input
+          type="radio"
+          id={`${name}-${option.value}`}
+          name={name}
+          value={option.value}
+          checked={option.value === defaultValue}
+          disabled={option.disabled}
+          required={required}
+          class:list={[
+            'h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500',
+            'dark:border-gray-600 dark:bg-dark-surface dark:checked:bg-primary-600',
+            error && 'border-red-500 focus:ring-red-500'
+          ]}
+          {...rest}
+        />
+        <label
+          for={`${name}-${option.value}`}
+          class:list={[
+            'ml-2 text-sm text-gray-700 dark:text-gray-300',
+            option.disabled && 'opacity-50'
+          ]}
+        >
+          {option.label}
+        </label>
+      </div>
+    ))}
+  </div>
+  {error && (
+    <p class="mt-1 text-sm text-red-500">
+      {error}
+    </p>
+  )}
+</div> 

@@ -1,0 +1,15 @@
+---
+import Layout from '@layouts/Layout.astro';
+import ErrorPage from '@components/ErrorPage.astro';
+
+const title = "Server Error";
+const description = "Something went wrong on our end. Please try again later.";
+---
+
+<Layout title={title} description={description}>
+  <ErrorPage
+    code={500}
+    title={title}
+    description={description}
+  />
+</Layout> 

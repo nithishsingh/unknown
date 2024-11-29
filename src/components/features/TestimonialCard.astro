@@ -1,0 +1,80 @@
+---
+interface Props {
+  quote: string;
+  author: {
+    name: string;
+    title: string;
+    company?: string;
+    image?: {
+      src: string;
+      alt: string;
+    };
+  };
+  rating?: number;
+  class?: string;
+}
+
+const {
+  quote,
+  author,
+  rating,
+  class: className
+} = Astro.props;
+
+import { Icon } from 'astro-icon/components';
+---
+
+<div
+  class:list={[
+    "bg-white dark:bg-dark-surface rounded-xl shadow-sm",
+    "border border-gray-200 dark:border-gray-700",
+    "p-6 relative",
+    className
+  ]}
+>
+  <Icon
+    name="lucide:quote"
+    class="absolute top-6 right-6 w-8 h-8 text-gray-200 dark:text-gray-700"
+  />
+
+  {rating && (
+    <div class="flex gap-1 mb-4">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Icon
+          name={i < rating ? "lucide:star" : "lucide:star"}
+          class:list={[
+            "w-4 h-4",
+            i < rating 
+              ? "text-yellow-400" 
+              : "text-gray-300 dark:text-gray-600"
+          ]}
+        />
+      ))}
+    </div>
+  )}
+
+  <blockquote class="text-gray-700 dark:text-gray-300 mb-6">
+    {quote}
+  </blockquote>
+
+  <div class="flex items-center gap-4">
+    {author.image && (
+      <img
+        src={author.image.src}
+        alt={author.image.alt}
+        class="w-12 h-12 rounded-full object-cover"
+      />
+    )}
+    <div>
+      <div class="font-medium text-gray-900 dark:text-white">
+        {author.name}
+      </div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">
+        {author.title}
+        {author.company && (
+          <> at <span class="text-primary-600 dark:text-primary-400">{author.company}</span></>
+        )}
+      </div>
+    </div>
+  </div>
+</div> 
