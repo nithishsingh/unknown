@@ -71,6 +71,26 @@ const config: Config = {
       }
     ]
   },
+  hero: {
+    title: "Industrial Excellence in Fabrication & Supply",
+    subtitle: "15+ Years of Precision Manufacturing",
+    description: "Your trusted partner in industrial fabrication, material supply, and hardware solutions. Based in Hosur, Tamil Nadu, delivering excellence across India.",
+    stats: {
+      projects: "500+",
+      clients: "200+",
+      experience: "15+"
+    },
+    features: [
+      "ISO 9001:2015 Certified",
+      "Made in India",
+      "15+ Years of Experience",
+      "Pan-India Service Network"
+    ],
+    cta: {
+      text: "Request a Quote",
+      link: "/contact"
+    }
+  },
   integrations: {
     tally: {
       formId: "3l0ykX",

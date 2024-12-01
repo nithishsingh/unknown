@@ -48,6 +48,36 @@ const blogPostSchema = z.object({
   content: z.string().optional()
 });
 
+// Define about section schema
+const aboutSectionSchema = z.object({
+  title: z.string(),
+  subtitle: z.string().optional(),
+  description: z.string(),
+  image: z.string().optional(),
+  icon: z.string().optional(),
+  order: z.number().min(1),
+  stats: z.array(z.object({
+    label: z.string(),
+    value: z.string(),
+    icon: z.string().optional()
+  })).optional()
+});
+
+// Define team member schema
+const teamMemberSchema = z.object({
+  name: z.string(),
+  position: z.string(),
+  department: z.string(),
+  image: z.string(),
+  bio: z.string(),
+  order: z.number().min(1),
+  social: z.object({
+    linkedin: z.string().url().optional(),
+    twitter: z.string().url().optional(),
+    email: z.string().email().optional()
+  }).optional()
+});
+
 export const collections = {
   'hero': defineCollection({
     type: 'content',
@@ -64,5 +94,13 @@ export const collections = {
   'blog-posts': defineCollection({
     type: 'content',
     schema: blogPostSchema,
+  }),
+  'about-sections': defineCollection({
+    type: 'content',
+    schema: aboutSectionSchema,
+  }),
+  'team-members': defineCollection({
+    type: 'content',
+    schema: teamMemberSchema,
   })
 };

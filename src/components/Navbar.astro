@@ -1,15 +1,15 @@
 ---
 import { Icon as AstroIcon } from 'astro-icon/components';
+import { Image } from 'astro:assets';
 import config from '@/config';
+import logo from '../images/logo.svg';
 
 const menuItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
-  { label: "Products", href: "/product" },
   { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/#contact-form" },
+  { label: "Theme", href: "/theme" },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -26,10 +26,12 @@ const currentPath = Astro.url.pathname;
               href="/" 
               class="flex items-center gap-3 group"
             >
-              <img 
-                src={config.company.branding.logo.default}
+              <Image 
+                src={logo}
                 alt={`${config.company.name} Logo`}
-                class="w-10 h-10 transition-transform duration-300 group-hover:scale-105"
+                width={40}
+                height={40}
+                class="transition-transform duration-300 group-hover:scale-105"
               />
               <div class="flex flex-col">
                 <span class="text-lg font-bold leading-tight text-primary-800 dark:text-dark-text-primary group-hover:text-primary-700 dark:group-hover:text-primary-500">
@@ -82,10 +84,10 @@ const currentPath = Astro.url.pathname;
                 <AstroIcon name="lucide:moon" class="w-5 h-5 hidden dark:block" />
               </button>
               <a 
-                href="/quote"
+                href="/contact"
                 class="ml-2 px-5 py-2 rounded-xl text-sm font-medium bg-accent-orange-600 text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent-orange-600/20 hover:bg-accent-orange-700 active:scale-95"
               >
-                Get Quote
+                Get Quote/Contact
               </a>
             </div>
           </div>
@@ -146,10 +148,10 @@ const currentPath = Astro.url.pathname;
                 <span>Theme</span>
               </button>
               <a 
-                href="/quote"
+                href="/contact"
                 class="block w-full text-center px-4 py-2.5 rounded-xl text-base font-medium bg-accent-orange-600 text-white hover:bg-accent-orange-700 transition-all duration-300"
               >
-                Get Quote
+                Get Quote/Contact
               </a>
             </div>
           </div>
@@ -412,4 +414,4 @@ const currentPath = Astro.url.pathname;
 
   closeBtn?.addEventListener('click', () => toggleModal(false));
   modalOverlay?.addEventListener('click', () => toggleModal(false));
-</script> 
+</script>

@@ -99,7 +99,24 @@ export interface CompanyConfig {
   certifications: CompanyCertification[];
 }
 
+export interface HeroConfig {
+  title: string;
+  subtitle: string;
+  description: string;
+  stats: {
+    projects: string;
+    clients: string;
+    experience: string;
+  };
+  features: string[];
+  cta: {
+    text: string;
+    link: string;
+  };
+}
+
 export interface Config {
   company: CompanyConfig;
+  hero: HeroConfig;
   integrations: IntegrationsConfig;
-} 
+}

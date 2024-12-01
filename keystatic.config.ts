@@ -11,7 +11,19 @@ export default config({
       path: 'src/content/about/*',
       schema: {
         title: fields.slug({ name: { label: 'Section Title' } }),
-        subtitle: fields.text({ label: 'Section Subtitle' }),
+        subtitle: fields.text({ 
+          label: 'Section Subtitle',
+          validation: { length: { min: 1 } }
+        }),
+        description: fields.text({ 
+          label: 'Description',
+          multiline: true,
+          validation: { length: { min: 10 } }
+        }),
+        icon: fields.text({ 
+          label: 'Lucide Icon Name',
+          description: 'Icon name from Lucide icons (e.g., "shield-check", "users")'
+        }),
         order: fields.integer({ 
           label: 'Display Order',
           defaultValue: 0,
@@ -22,9 +34,25 @@ export default config({
           directory: 'public/images/about',
           publicPath: '/images/about/'
         }),
-        content: fields.text({
+        stats: fields.array(
+          fields.object({
+            label: fields.text({ label: 'Stat Label' }),
+            value: fields.text({ label: 'Stat Value' }),
+            icon: fields.text({ 
+              label: 'Stat Icon',
+              description: 'Lucide icon name for this stat'
+            })
+          }),
+          {
+            label: 'Statistics',
+            itemLabel: props => props.fields.label.value
+          }
+        ),
+        content: fields.markdown({
           label: 'Content',
-          multiline: true
+          formatting: true,
+          links: true,
+          images: true
         })
       }
     }),

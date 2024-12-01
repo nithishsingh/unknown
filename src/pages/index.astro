@@ -18,14 +18,7 @@ const sortedSlides = slides.sort((a, b) => a.data.order - b.data.order);
 
 // Hero Data
 const heroData = {
-  title: "Engineering Excellence",
-  subtitle: "Innovative Solutions",
-  description: "Delivering cutting-edge engineering solutions for modern industrial challenges.",
-  stats: {
-    projects: "100+",
-    clients: "50+",
-    experience: "15+ Years"
-  },
+  ...config.hero,
   slides: sortedSlides
 };
 

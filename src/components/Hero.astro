@@ -13,10 +13,15 @@ interface Props {
     experience: string;
   };
   slides: CollectionEntry<'hero-slides'>[];
+  features?: string[];
+  cta?: {
+    text: string;
+    link: string;
+  };
 }
 
 // Get props including slides
-const { title, subtitle, description, stats, slides } = Astro.props;
+const { title, subtitle, description, stats, slides, features, cta } = Astro.props;
 ---
 
 <section class="py-8 md:py-16 lg:py-24 overflow-hidden bg-gradient-to-b from-primary-100 to-white dark:from-dark-bg-soft dark:to-dark-bg">
@@ -47,6 +52,28 @@ const { title, subtitle, description, stats, slides } = Astro.props;
           data-aos-delay="300"
         >
           <slot name="description" />
+          <p class="text-gray-600 dark:text-gray-300">{description}</p>
+          
+          {features && features.length > 0 && (
+            <ul class="grid grid-cols-2 gap-3 mt-6">
+              {features.map(feature => (
+                <li class="flex items-center text-gray-600 dark:text-gray-300">
+                  <AstroIcon name="lucide:check-circle" class="w-5 h-5 text-primary-600 dark:text-primary-400 mr-2" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div class="mt-8">
+            <a 
+              href={cta?.link || '/contact'} 
+              class="inline-flex items-center px-6 py-3 rounded-xl text-white bg-accent-orange-600 hover:bg-accent-orange-700 transition-colors duration-300"
+            >
+              {cta?.text || 'Request a Quote'}
+              <AstroIcon name="lucide:arrow-right" class="w-5 h-5 ml-2" />
+            </a>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6" data-aos="fade-up" data-aos-delay="400">
@@ -104,7 +131,8 @@ const { title, subtitle, description, stats, slides } = Astro.props;
                 format="webp"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-dark-bg/90 via-dark-bg-soft/50 to-transparent"></div>
-              
+　
+　
               <div class="absolute bottom-8 md:bottom-12 left-4 right-4 md:left-6 md:right-6 transition-opacity duration-1000">
                 <div class="backdrop-blur-sm bg-white/10 dark:bg-dark-surface-soft/30 rounded-lg p-3 md:p-4 transform transition-all duration-500">
                   <div class="flex items-start gap-3">
