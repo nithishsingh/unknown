@@ -48,7 +48,7 @@ export default config({
             itemLabel: props => props.fields.label.value
           }
         ),
-        content: fields.markdown({
+        content: fields.markdoc({
           label: 'Content',
           formatting: true,
           links: true,

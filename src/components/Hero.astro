@@ -285,7 +285,9 @@ const { title, subtitle, description, stats, slides, features, cta } = Astro.pro
       // Announce slide change to screen readers
       const currentSlideElement = slides[newIndex] as HTMLElement;
       const slideTitle = currentSlideElement.getAttribute('aria-label');
-      statusRegion.textContent = `Showing ${slideTitle}`;
+      if (statusRegion) {
+        statusRegion.textContent = `Showing ${slideTitle}`;
+      }
 
       currentSlide = newIndex;
     }
@@ -309,7 +311,7 @@ const { title, subtitle, description, stats, slides, features, cta } = Astro.pro
     });
 
     // Keyboard Navigation
-    container?.addEventListener('keydown', (e) => {
+    container?.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
         prevSlide();
       } else if (e.key === 'ArrowRight') {
@@ -348,8 +350,8 @@ const { title, subtitle, description, stats, slides, features, cta } = Astro.pro
       if (entry.isIntersecting) {
         const target = entry.target;
         const value = target.textContent;
-        if (value.includes('+')) {
-          const number = parseInt(value);
+        if (value && value.includes('+')) {
+          const number = parseInt(value.replace('+', ''));
           animateCounter(target, 0, number);
         }
       }
@@ -358,7 +360,7 @@ const { title, subtitle, description, stats, slides, features, cta } = Astro.pro
 
   counterElements.forEach(el => observer.observe(el));
 
-  function animateCounter(element, start, end) {
+  function animateCounter(element: HTMLElement, start: number, end: number) {
     let current = start;
     const increment = Math.ceil(end / 30);
     const timer = setInterval(() => {
