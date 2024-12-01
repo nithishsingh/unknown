@@ -16,10 +16,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Setup Bun with Node 22
-        uses: volodarskiy/setup-bun@v1
+
+      # Set up Bun with the latest version
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: '22'
+          bun-version: latest  # You can specify any version here (e.g., 1.0.0)
+
+      # Cache Bun dependencies to speed up builds
       - name: Cache Bun dependencies
         uses: actions/cache@v3
         with:
@@ -27,10 +31,16 @@ jobs:
           key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-bun-
-      - name: Install dependencies with Bun
-        run: bun install
+
+      # Install dependencies with Bun
+      - name: Install Dependencies with Bun
+        run: bun install --frozen-lockfile  # Ensures dependencies match the lockfile
+
+      # Build the project with Bun
       - name: Build with Bun
         run: bun run build
+
+      # Upload Pages Artifact
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v1
         with:
@@ -46,5 +56,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-        with:
-          target_branch: gh-pages  # Ensure this is your desired target branch
