@@ -1,7 +1,7 @@
 // @ts-check
 
 import { defineConfig } from 'astro/config';
-//import config from './src/config';
+import config from './src/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
@@ -12,7 +12,7 @@ import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
-  //site: config.company.url,
+  site: config.company.url,
   output: 'hybrid',
   adapter: node({
     mode: 'standalone'
