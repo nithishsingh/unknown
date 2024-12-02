@@ -54,15 +54,16 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.42.1",
-    "@testing-library/react": "^14.0.0",
+    "@astrojs/node": "^8.3.4",
     "@axe-core/playwright": "^4.8.5",
+    "@playwright/test": "^1.42.1",
+    "@size-limit/preset-app": "^11.0.0",
+    "@testing-library/react": "^14.0.0",
     "@vitest/coverage-v8": "^0.34.6",
     "gh-pages": "^6.1.1",
+    "husky": "^9.1.7",
     "netlify-cli": "^17.0.0",
-    "vercel": "^33.0.0",
-    "@size-limit/preset-app": "^11.0.0",
     "size-limit": "^11.0.0",
-    "husky": "^9.1.7"
+    "vercel": "^33.0.0"
   }
 }
