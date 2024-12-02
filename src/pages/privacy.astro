@@ -6,7 +6,18 @@ import Section from '@components/layout/Section.astro';
 const title = "Privacy Policy";
 const lastUpdated = "January 1, 2024";
 
-const sections = [
+interface Section {
+  title: string;
+  content: PrivacyItem[];
+}
+
+interface PrivacyItem {
+  subtitle?: string;
+  text: string;
+  items?: string[];
+}
+
+const sections: Section[] = [
   {
     title: "Information We Collect",
     content: [
@@ -64,6 +75,7 @@ const sections = [
     ]
   }
 ];
+
 ---
 
 <Layout title={title}>
@@ -87,10 +99,10 @@ const sections = [
                 {item.subtitle && (
                   <h3>{item.subtitle}</h3>
                 )}
-                <p>{item.text}</p>
+                <p class="mt-2">{item.text}</p>
                 {item.items && (
-                  <ul>
-                    {item.items.map(listItem => (
+                  <ul class="list-disc list-inside mt-4 space-y-2">
+                    {item.items.map((listItem: string) => (
                       <li>{listItem}</li>
                     ))}
                   </ul>

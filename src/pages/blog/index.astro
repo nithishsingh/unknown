@@ -42,10 +42,7 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured);
                       <img
                         src={post.data.image}
                         alt={post.data.title}
-                        class="absolute inset-0 w-full h-full object-cover"
-                        onError={(e) => {
-                          e.currentTarget.src = '/images/fallback.jpg';
-                        }}
+                        class="absolute inset-0 w-full h-full object-cover blog-post-image"
                         loading="lazy"
                       />
                     </div>
@@ -70,7 +67,7 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured);
     )}
 
     {/* All Posts */}
-    <Section class="py-16" background="secondary">
+    <Section class="py-16" background="light">
       <Container>
         <h2 class="text-3xl font-bold mb-8">All Posts</h2>
         <div class="grid md:grid-cols-3 gap-8">
@@ -82,7 +79,7 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured);
                     <img
                       src={post.data.image}
                       alt={post.data.title}
-                      class="absolute inset-0 w-full h-full object-cover"
+                      class="absolute inset-0 w-full h-full object-cover blog-post-image"
                     />
                   </div>
                 )}
@@ -105,3 +102,13 @@ const featuredPosts = sortedPosts.filter(post => post.data.featured);
     </Section>
   </main>
 </Layout>
+
+<script>
+  // Handle image loading errors
+  document.querySelectorAll('.blog-post-image').forEach(img => {
+    img.addEventListener('error', (e) => {
+      const imgElement = e.target as HTMLImageElement;
+      imgElement.src = '/images/fallback.jpg';
+    });
+  });
+</script>

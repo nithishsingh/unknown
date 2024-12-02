@@ -109,9 +109,9 @@ const categories = [...new Set(workItems.map(item => item.data.category))];
       // Filter work items
       workItems.forEach(item => {
         if (category === 'all' || item.getAttribute('data-category') === category) {
-          item.style.display = '';
+          (item as HTMLElement).style.display = '';
         } else {
-          item.style.display = 'none';
+          (item as HTMLElement).style.display = 'none';
         }
       });
     });

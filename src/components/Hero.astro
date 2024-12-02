@@ -311,17 +311,18 @@ const { title, subtitle, description, stats, slides, features, cta } = Astro.pro
     });
 
     // Keyboard Navigation
-    container?.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') {
+    container?.addEventListener('keydown', ((e: Event) => {
+      const event = e as KeyboardEvent;
+      if (event.key === 'ArrowLeft') {
         prevSlide();
-      } else if (e.key === 'ArrowRight') {
+      } else if (event.key === 'ArrowRight') {
         nextSlide();
-      } else if (e.key === 'Home') {
+      } else if (event.key === 'Home') {
         updateSlides(0);
-      } else if (e.key === 'End') {
+      } else if (event.key === 'End') {
         updateSlides(slideCount - 1);
       }
-    });
+    }));
 
     // Auto-advance slides
     const autoPlayInterval = setInterval(nextSlide, 5000);
@@ -348,11 +349,11 @@ const { title, subtitle, description, stats, slides, features, cta } = Astro.pro
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const target = entry.target;
+        const target = entry.target as HTMLElement;
         const value = target.textContent;
         if (value && value.includes('+')) {
           const number = parseInt(value.replace('+', ''));
-          animateCounter(target, 0, number);
+          animateCounter(target as HTMLElement, 0, number);
         }
       }
     });

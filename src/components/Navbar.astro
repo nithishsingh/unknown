@@ -268,7 +268,7 @@ const currentPath = Astro.url.pathname;
 
   // Scroll handler
   window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+    const currentScroll = window.scrollY;
 
     if (currentScroll <= 0) {
       navbar?.classList.remove('scrolled', '-translate-y-full');

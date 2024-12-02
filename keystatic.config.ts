@@ -49,10 +49,7 @@ export default config({
           }
         ),
         content: fields.markdoc({
-          label: 'Content',
-          formatting: true,
-          links: true,
-          images: true
+          label: 'Content'
         })
       }
     }),

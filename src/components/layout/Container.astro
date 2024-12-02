@@ -1,23 +1,24 @@
 ---
 interface Props {
   as?: keyof HTMLElementTagNameMap;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
   class?: string;
 }
 
-const {
+const { 
   as: Element = 'div',
   size = 'lg',
   class: className
 } = Astro.props;
 
-type SizeKey = NonNullable<Props['size']>;
+type SizeKey = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
 
 const sizes: Record<SizeKey, string> = {
-  sm: 'max-w-3xl',
-  md: 'max-w-4xl',
-  lg: 'max-w-6xl',
-  xl: 'max-w-7xl',
+  sm: 'max-w-screen-sm',
+  md: 'max-w-screen-md',
+  lg: 'max-w-screen-lg',
+  xl: 'max-w-screen-xl',
+  '2xl': 'max-w-screen-2xl',
   full: 'max-w-full'
 };
 ---
@@ -25,9 +26,9 @@ const sizes: Record<SizeKey, string> = {
 <Element
   class:list={[
     'mx-auto w-full px-4 sm:px-6 lg:px-8',
-    sizes[size],
+    sizes[size as SizeKey],
     className
   ]}
 >
   <slot />
-</Element> 
+</Element>
