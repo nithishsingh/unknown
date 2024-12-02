@@ -7,7 +7,7 @@ const config: Config = {
     shortName: "KrrishCo",
     tagline: "Engineering Excellence",
     foundedYear: 2008,
-    // url: "https://krrishco.com",
+    url: "/",
     contact: {
       phone: {
         primary: "+91 98765 43210",
